@@ -1,0 +1,7 @@
+C:\Users\vanderley\source\repos\LearningCSharp\2-CreatingVars\bin\Debug\2-CreatingVars.exe.config
+C:\Users\vanderley\source\repos\LearningCSharp\2-CreatingVars\bin\Debug\2-CreatingVars.exe
+C:\Users\vanderley\source\repos\LearningCSharp\2-CreatingVars\bin\Debug\2-CreatingVars.pdb
+C:\Users\vanderley\source\repos\LearningCSharp\2-CreatingVars\obj\Debug\2-CreatingVars.csprojAssemblyReference.cache
+C:\Users\vanderley\source\repos\LearningCSharp\2-CreatingVars\obj\Debug\2-CreatingVars.csproj.CoreCompileInputs.cache
+C:\Users\vanderley\source\repos\LearningCSharp\2-CreatingVars\obj\Debug\2-CreatingVars.exe
+C:\Users\vanderley\source\repos\LearningCSharp\2-CreatingVars\obj\Debug\2-CreatingVars.pdb
