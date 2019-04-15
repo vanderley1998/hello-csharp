@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using ByteBank.Exceptions;
+
 namespace ByteBank
 {
     class Program
@@ -20,13 +22,24 @@ namespace ByteBank
 
             CheckingAccount account = new CheckingAccount(1231, 654878);
             account.Customer = c1;
-            account.balance = 200;
+            try
+            {
+                account.Balance = -200;
+            }
+            catch(FinanceOperationException e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.InnerException.Message);
+                Console.WriteLine(e.StackTrace);
+            }
 
             CheckingAccount account2 = new CheckingAccount(1231, 416512);
             account2.Customer = c2;
-            account2.balance = 100;
+            account2.Balance = 100;
 
-            Console.WriteLine(account2.balance);
+            account.CashOut(500);
+
+            Console.WriteLine(account2.Balance);
 
             Console.ReadLine();
         }

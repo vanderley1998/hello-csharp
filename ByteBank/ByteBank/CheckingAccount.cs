@@ -1,13 +1,22 @@
-﻿namespace ByteBank
+﻿using System;
+using ByteBank.Exceptions;
+
+namespace ByteBank
 {
     class CheckingAccount
     {
-        private int _agency;
-        private int _accountNumber;
         private double _balance;
 
         public CheckingAccount(int agency, int accountNumber)
         {
+            if(agency <= 0)
+            {
+                throw new ArgumentException("The argument must be > than 0.", nameof(agency));
+            }
+            if (accountNumber <= 0)
+            {
+                throw new ArgumentException("The argument must be > than 0.", nameof(accountNumber));
+            }
             this.Agency = agency;
             this.AccountNumber = accountNumber;
             TotalCheckingAccounts++;
@@ -16,34 +25,11 @@
         public Customer Customer { get; set; }
         public static int TotalCheckingAccounts { get; private set; }
 
-        public int Agency
-        {
-            get
-            {
-                return this._agency;
-            }
+        public int Agency { get; }
 
-            set
-            {
-                // TODO Agency validation
-                this._agency = value;
-            }
-        }
+        public int AccountNumber { get; }
 
-        public int AccountNumber
-        {
-            get
-            {
-                return this._accountNumber;
-            }
-            set
-            {
-                // TODO account number validation
-                this._accountNumber = value;
-            }
-        }
-
-        public double balance
+        public double Balance
         {
             get
             {
@@ -54,22 +40,23 @@
             {
                 if(value < 0)
                 {
-                    return;
+                    BalanceIsNotEnough innerException = new BalanceIsNotEnough(this.Balance, value);
+                    throw new FinanceOperationException("Unsuccessful operation!", innerException);
                 }
                 this._balance = value;
             }
         }
 
-        public bool CashOut(double value)
+        public void CashOut(double value)
         {
             if (this._balance < value)
             {
-                return false;
+                BalanceIsNotEnough innerException = new BalanceIsNotEnough(this.Balance, value);
+                throw new FinanceOperationException("Unsuccessful operation!", innerException);
             }
             else
             {
                 this._balance -= value;
-                return true;
             }
         }
 
@@ -78,17 +65,26 @@
             this._balance += value;
         }
 
-        public bool CashTransfer(double value, CheckingAccount otherAccount)
+        public void CashTransfer(double value, CheckingAccount otherAccount)
         {
-            if (this._balance < value)
+            try
             {
-                return false;
+                if (this._balance < value)
+                {
+                    BalanceIsNotEnough innerException = new BalanceIsNotEnough(this.Balance, value);
+                    throw new FinanceOperationException("Unsuccessful operation!", innerException);
+                }
+                else
+                {
+                    this._balance -= value;
+                    otherAccount.CashDeposit(value);
+                }
             }
-            else
+            catch(NullReferenceException)
             {
-                this._balance -= value;
-                otherAccount.CashDeposit(value);
-                return true;
+                Console.WriteLine("Null reference from " + nameof(otherAccount));
+                // throw new NullReferenceException("Null reference from " + nameof(otherAccount)); // Perde informaçãoes do stacktracer
+                throw; // Mantem o stacktracer
             }
         }
 

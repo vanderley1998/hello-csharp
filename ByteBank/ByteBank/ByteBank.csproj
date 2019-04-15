@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="CheckingAccount.cs" />
     <Compile Include="Customer.cs" />
+    <Compile Include="Exceptions\BalanceIsNotEnough.cs" />
+    <Compile Include="Exceptions\FinanceOperationException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

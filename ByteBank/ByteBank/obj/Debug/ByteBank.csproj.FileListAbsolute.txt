@@ -5,3 +5,10 @@ C:\Projetos\hello-csharp\ByteBank\ByteBank\obj\Debug\ByteBank.csprojAssemblyRefe
 C:\Projetos\hello-csharp\ByteBank\ByteBank\obj\Debug\ByteBank.csproj.CoreCompileInputs.cache
 C:\Projetos\hello-csharp\ByteBank\ByteBank\obj\Debug\ByteBank.exe
 C:\Projetos\hello-csharp\ByteBank\ByteBank\obj\Debug\ByteBank.pdb
+C:\Users\vanderley\Documents\hello-csharp\ByteBank\ByteBank\bin\Debug\ByteBank.exe.config
+C:\Users\vanderley\Documents\hello-csharp\ByteBank\ByteBank\bin\Debug\ByteBank.exe
+C:\Users\vanderley\Documents\hello-csharp\ByteBank\ByteBank\bin\Debug\ByteBank.pdb
+C:\Users\vanderley\Documents\hello-csharp\ByteBank\ByteBank\obj\Debug\ByteBank.csprojAssemblyReference.cache
+C:\Users\vanderley\Documents\hello-csharp\ByteBank\ByteBank\obj\Debug\ByteBank.csproj.CoreCompileInputs.cache
+C:\Users\vanderley\Documents\hello-csharp\ByteBank\ByteBank\obj\Debug\ByteBank.exe
+C:\Users\vanderley\Documents\hello-csharp\ByteBank\ByteBank\obj\Debug\ByteBank.pdb
