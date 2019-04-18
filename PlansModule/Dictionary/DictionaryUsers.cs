@@ -1,0 +1,27 @@
+﻿using Plans.Models.Users;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PlansModule.Dictionary
+{
+    class DictionaryUsers : IDictionaryList<User>
+    {
+        public IDictionary<int, User> ListData { get; } = new Dictionary<int, User>();
+
+        public void InsertData(User user)
+        {
+            ListData.Add(user.Id, user);
+        }
+
+        public void ShowData()
+        {
+            foreach (var user in this.ListData)
+            {
+                Console.WriteLine(user);
+            }
+        }
+    }
+}
