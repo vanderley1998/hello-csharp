@@ -1,7 +1,0 @@
-C:\Users\vanderley\source\repos\LearningCSharp\TestLearningAbout\bin\Debug\TestLearningAbout.exe.config
-C:\Users\vanderley\source\repos\LearningCSharp\TestLearningAbout\bin\Debug\TestLearningAbout.exe
-C:\Users\vanderley\source\repos\LearningCSharp\TestLearningAbout\bin\Debug\TestLearningAbout.pdb
-C:\Users\vanderley\source\repos\LearningCSharp\TestLearningAbout\obj\Debug\TestLearningAbout.csprojAssemblyReference.cache
-C:\Users\vanderley\source\repos\LearningCSharp\TestLearningAbout\obj\Debug\TestLearningAbout.csproj.CoreCompileInputs.cache
-C:\Users\vanderley\source\repos\LearningCSharp\TestLearningAbout\obj\Debug\TestLearningAbout.exe
-C:\Users\vanderley\source\repos\LearningCSharp\TestLearningAbout\obj\Debug\TestLearningAbout.pdb

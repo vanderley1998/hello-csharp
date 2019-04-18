@@ -1,7 +1,0 @@
-C:\Projetos\hello-csharp\ByteBank\ByteBank_02\bin\Debug\ByteBank_02.exe.config
-C:\Projetos\hello-csharp\ByteBank\ByteBank_02\bin\Debug\ByteBank_02.exe
-C:\Projetos\hello-csharp\ByteBank\ByteBank_02\bin\Debug\ByteBank_02.pdb
-C:\Projetos\hello-csharp\ByteBank\ByteBank_02\obj\Debug\ByteBank_02.csprojAssemblyReference.cache
-C:\Projetos\hello-csharp\ByteBank\ByteBank_02\obj\Debug\ByteBank_02.csproj.CoreCompileInputs.cache
-C:\Projetos\hello-csharp\ByteBank\ByteBank_02\obj\Debug\ByteBank_02.exe
-C:\Projetos\hello-csharp\ByteBank\ByteBank_02\obj\Debug\ByteBank_02.pdb
