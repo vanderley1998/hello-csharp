@@ -1,13 +1,14 @@
-﻿using Plans.Models.Users;
+﻿using Plans.Models.Exception;
+using Plans.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlansModule.Dictionary
+namespace Plans.Models.Dictionary
 {
-    class DictionaryUsers : IDictionaryList<User>
+    public class DictionaryUsers : IDictionaryList<User>
     {
         public IDictionary<int, User> ListData { get; } = new Dictionary<int, User>();
 
@@ -21,6 +22,19 @@ namespace PlansModule.Dictionary
             foreach (var user in this.ListData)
             {
                 Console.WriteLine(user);
+            }
+        }
+
+        public User GetItem(int id)
+        {
+            try
+            {
+                var value = ListData[id];
+                return value;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new UserNotFoundException($"ERROR: User with Id = {id} not found.");
             }
         }
     }

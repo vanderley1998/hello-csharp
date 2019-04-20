@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.156
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlansApplication", "PlansModule\PlansApplication.csproj", "{A075A150-F2D9-4EE4-9D48-D16999C6839D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plans.Application", "PlansModule\Plans.Application.csproj", "{A075A150-F2D9-4EE4-9D48-D16999C6839D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plans.Models", "Plans.Models\Plans.Models.csproj", "{0755CF2F-FC28-49C4-875C-CDC0229A8B0D}"
 EndProject

@@ -1,15 +1,29 @@
 ﻿using Plans.Models.Plans;
+using Plans.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlansModule.Dictionary
+namespace Plans.Models.Dictionary
 {
-    class DictionaryPlans : IDictionaryList<Plan>
+    public class DictionaryPlans : IDictionaryList<Plan>
     {
         public IDictionary<int, Plan> ListData { get; } = new Dictionary<int, Plan>();
+
+        public Plan GetItem(int id)
+        {
+            try
+            {
+                var value = ListData[id];
+                return value;
+            }
+            catch (KeyNotFoundException e)
+            {
+                throw e;
+            }
+        }
 
         public void InsertData(Plan plan)
         {

@@ -15,6 +15,19 @@ namespace Plans.Models.Plans
         {
         }
 
+        public Plan(int id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
+        public Plan(int id, string name, User user)
+        {
+            Id = id;
+            Name = name;
+            User = user;
+        }
+
         public Plan(int id, string name, PlanType type, User user, PlanStatus status, DateTime startDate, DateTime endDate, string description, double cost)
         {
             Id = id;
@@ -38,5 +51,10 @@ namespace Plans.Models.Plans
         public string Description { get; set; }
         public double Cost { get; set; }
 
+
+        public override string ToString()
+        {
+            return $"Id: {Id}, Name: {Name}, User: {User.Name} (ID: {User.Id})";
+        }
     }
 }

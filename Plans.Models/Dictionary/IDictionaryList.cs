@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlansModule.Dictionary
+namespace Plans.Models.Dictionary
 {
-    interface IDictionaryList<T>
+    internal interface IDictionaryList<T>
     {
         IDictionary<int, T> ListData { get; }
 
         void InsertData(T obj);
         void ShowData();
+        T GetItem(int id);
     }
 }
