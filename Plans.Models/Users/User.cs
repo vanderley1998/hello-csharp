@@ -13,6 +13,11 @@ namespace Plans.Models.Users
         {
         }
 
+        public User(int id)
+        {
+            Id = id;
+        }
+
         public User(int id, string name)
         {
             Id = id;
@@ -36,9 +41,22 @@ namespace Plans.Models.Users
         public bool CanCreatePlan { get; set; }
         public bool Removed { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is User other)
+            {
+                return other.Id == this.Id;
+            }
+            throw new ArgumentNullException("Expected type User but passed " + obj.GetType());
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode();
+        }
         public override string ToString()
         {
-            return $"Id: {Id}, Name: {Name}";
+            return $"\t[Id: {Id}, Name: {Name}]";
         }
 
     }

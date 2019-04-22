@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plans.Models.Users;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -18,8 +19,9 @@ namespace Plans.Database
             Connection = conn;
         }
 
-        public void GetAll()
+        public List<User> GetAll()
         {
+            List<User> list = new List<User>();
             try
             {
                 using (var connection = Connection)
@@ -29,8 +31,18 @@ namespace Plans.Database
                     {
                         command.CommandText = "SELECT * FROM USERS";
                         var reader = command.ExecuteReader();
-                        Console.WriteLine($"Total de usuários: {reader.FieldCount}");
-                        Console.ReadLine();
+                        while (reader.Read())
+                        {
+                            User user = new User(
+                                reader.GetInt32(0),
+                                reader.GetString(1),
+                                reader.GetDateTime(2),
+                                reader.GetDateTime(3),
+                                reader.GetBoolean(4),
+                                reader.GetBoolean(5)
+                            );
+                            list.Add(user);
+                        }
                     }
                 }
             }
@@ -38,6 +50,7 @@ namespace Plans.Database
             {
                 Console.WriteLine(e.Message);
             }
+            return list;
         }
 
     }

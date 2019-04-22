@@ -28,17 +28,13 @@ namespace Plans.Models.Plans
             User = user;
         }
 
-        public Plan(int id, string name, PlanType type, User user, PlanStatus status, DateTime startDate, DateTime endDate, string description, double cost)
+        public Plan(int id, string name, PlanType type, User user, PlanStatus status)
         {
             Id = id;
             Name = name;
             Type = type;
             User = user;
             Status = status;
-            StartDate = startDate;
-            EndDate = endDate;
-            Description = description;
-            Cost = cost;
         }
 
         public int Id { get; set; }
@@ -49,12 +45,25 @@ namespace Plans.Models.Plans
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Description { get; set; }
-        public double Cost { get; set; }
+        public decimal Cost { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is Plan other)
+            {
+                return other.Id == this.Id;
+            }
+            throw new ArgumentNullException("Expected type Plan but passed " + obj.GetType());
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode();
+        }
 
         public override string ToString()
         {
-            return $"Id: {Id}, Name: {Name}, User: {User.Name} (ID: {User.Id})";
+            return $"\t[Id: {Id}, Name: {Name}, User: {User.Name} (ID: {User.Id})]";
         }
     }
 }

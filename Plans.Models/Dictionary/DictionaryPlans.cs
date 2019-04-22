@@ -34,7 +34,7 @@ namespace Plans.Models.Dictionary
         {
             foreach (var plan in this.ListData)
             {
-                Console.WriteLine(plan);
+                Console.WriteLine("\t" + plan);
             }
         }
     }

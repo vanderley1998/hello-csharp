@@ -12,6 +12,7 @@ namespace Plans.Database
     {
 
         public UserData UserData { get; private set; }
+        public PlanData PlanData { get; private set; }
 
         public PlanModuleDB(string conn)
         {
@@ -20,6 +21,7 @@ namespace Plans.Database
                 throw new ArgumentException("A string connection is required and cannot be empty.");
             }
             UserData = new UserData(OpenConnection(conn));
+            PlanData = new PlanData(OpenConnection(conn));
         }
 
         private SqlConnection OpenConnection(string conn)

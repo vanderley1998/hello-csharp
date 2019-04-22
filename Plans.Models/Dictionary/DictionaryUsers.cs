@@ -21,7 +21,7 @@ namespace Plans.Models.Dictionary
         {
             foreach (var user in this.ListData)
             {
-                Console.WriteLine(user);
+                Console.WriteLine("\t" + user);
             }
         }
 

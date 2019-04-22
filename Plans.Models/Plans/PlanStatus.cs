@@ -13,6 +13,11 @@ namespace Plans.Models.Plans
         {
         }
 
+        public PlanStatus(int id)
+        {
+            Id = id;
+        }
+
         public PlanStatus(int id, string name)
         {
             Id = id;
