@@ -13,6 +13,11 @@ namespace Plans.Models.Plans
         {
         }
 
+        public PlanStatus(string name)
+        {
+            Name = name;
+        }
+
         public PlanStatus(int id)
         {
             Id = id;
@@ -26,6 +31,11 @@ namespace Plans.Models.Plans
 
         public int Id { get; set; }
         public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return $"[Id: {Id}, Name: {Name}]";
+        }
 
     }
 }

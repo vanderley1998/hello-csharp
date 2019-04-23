@@ -25,5 +25,10 @@ namespace Plans.Models.Plans
         public Plan Plan { get; set; }
         public PlanStatus PlanStatus { get; set; }
         public DateTime Date { get; set; }
+
+        public override string ToString()
+        {
+            return $"[Id: {Id}, [Plan: {Plan.Id}, User: {Plan.User.Id}], [PlanStatus {PlanStatus.Id}], Date: {Date}]";
+        }
     }
 }

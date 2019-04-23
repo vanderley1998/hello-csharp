@@ -10,9 +10,14 @@ namespace Plans.Models.Plans
 {
     public class Plan
     {
-
+       
         public Plan()
         {
+        }
+
+        public Plan(int id)
+        {
+            this.Id = id;
         }
 
         public Plan(int id, string name)
@@ -26,15 +31,6 @@ namespace Plans.Models.Plans
             Id = id;
             Name = name;
             User = user;
-        }
-
-        public Plan(int id, string name, PlanType type, User user, PlanStatus status)
-        {
-            Id = id;
-            Name = name;
-            Type = type;
-            User = user;
-            Status = status;
         }
 
         public int Id { get; set; }

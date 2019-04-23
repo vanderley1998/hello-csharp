@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.60.6\lib\net451\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,16 +44,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlanData.cs" />
+    <Compile Include="DataPlan.cs" />
+    <Compile Include="DataPlansHistory.cs" />
+    <Compile Include="DataPlanStatus.cs" />
+    <Compile Include="DataPlanType.cs" />
+    <Compile Include="DataUser.cs" />
+    <Compile Include="DataUsersHistory.cs" />
+    <Compile Include="ICrud.cs" />
     <Compile Include="PlanModuleDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Plans.Models\Plans.Models.csproj">
       <Project>{0755cf2f-fc28-49c4-875c-cdc0229a8b0d}</Project>
       <Name>Plans.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
