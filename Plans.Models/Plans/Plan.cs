@@ -33,6 +33,31 @@ namespace Plans.Models.Plans
             User = user;
         }
 
+        public Plan(string name, PlanType type, User user, PlanStatus status, DateTime startDate, DateTime endDate, string description, decimal cost)
+        {
+            Name = name;
+            Type = type;
+            User = user;
+            Status = status;
+            StartDate = startDate;
+            EndDate = endDate;
+            Description = description;
+            Cost = cost;
+        }
+
+        public Plan(int id, string name, PlanType type, User user, PlanStatus status, DateTime startDate, DateTime endDate, string description, decimal cost)
+        {
+            Id = id;
+            Name = name;
+            Type = type;
+            User = user;
+            Status = status;
+            StartDate = startDate;
+            EndDate = endDate;
+            Description = description;
+            Cost = cost;
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public PlanType Type { get; set; }
@@ -42,6 +67,7 @@ namespace Plans.Models.Plans
         public DateTime EndDate { get; set; }
         public string Description { get; set; }
         public decimal Cost { get; set; }
+        public List<User> InterestedUsers { get; set; }
 
         public override bool Equals(object obj)
         {

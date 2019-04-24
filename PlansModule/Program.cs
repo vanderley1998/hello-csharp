@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PlansModule
 {
@@ -29,7 +27,7 @@ namespace PlansModule
         static List<Plan> GetPlansByUser(int idUser)
         {
             List<Plan> list = new List<Plan>();
-            Console.WriteLine($"=> Planos por responsável (ID: {idUser})");
+            Console.WriteLine($"=> Planos por responsável (ID: {18})");
             foreach (var plan in _listPlans
                 .Where(plan => plan.User.Id == idUser)
                 .OrderBy(plan => plan.Id)
@@ -84,10 +82,104 @@ namespace PlansModule
             _listUsersHistory = qUsersHistory.ToList();
         }
 
+        static void ShowMenu()
+        {
+            Console.WriteLine("================= MENU =================");
+            Console.WriteLine("1. Exibir dicionário de usuários");
+            Console.WriteLine("2. Exibir dicionário de planos");
+            Console.WriteLine("3. Exibir lista de tipos de planos");
+            Console.WriteLine("4. Exibir lista de status de planos");
+            Console.WriteLine("5. Exibir lista de histórico de planos");
+            Console.WriteLine("6. Exibir lista de histórico de usuários");
+            Console.WriteLine("7. Exibir planos por usuário especifico");
+            Console.WriteLine("-1. Sair");
+            Console.WriteLine("========================================");
+        }
+ 
+        static void Init()
+        {
+            GetUsersFromDB();
+            GetPlansFromDB();
+            GetPlansHistoryFromDB();
+            GetPlanStatusFromDB();
+            GetPlanTypesFromDB();
+            GetUsersHistoryFromDB();
+        }
+
         static void Main(string[] args)
         {
-            _planModuleDB.DataPlanStatus.Save(new PlanStatus("Teste de inserção C#"));
-            Console.ReadLine();
+            Init();
+            string op;
+            do
+            {
+                Console.Clear();
+                ShowMenu();
+                Console.Write("Opção: ");
+                op = Console.ReadLine();
+                switch(op)
+                {
+                    case "1":
+                        Console.Clear();
+                        _dictionaryUsers.ShowData();
+                        Console.ReadKey();
+                        break;
+                    case "2":
+                        Console.Clear();
+                        _dictionaryPlans.ShowData();
+                        Console.ReadKey();
+                        break;
+                    case "3":
+                        Console.Clear();
+                        foreach (var item in _listPlanTypes.ToList())
+                        {
+                            Console.WriteLine(item);
+                        }
+                        Console.ReadKey();
+                        break;
+                    case "4":
+                        Console.Clear();
+                        foreach (var item in _listPlanStatus.ToList())
+                        {
+                            Console.WriteLine(item);
+                        }
+                        Console.ReadKey();
+                        break;
+                    case "5":
+                        Console.Clear();
+                        foreach (var item in _listPlansHistory.ToList())
+                        {
+                            Console.WriteLine(item);
+                        }
+                        Console.ReadKey();
+                        break;
+                    case "6":
+                        Console.Clear();
+                        foreach (var item in _listUsersHistory.ToList())
+                        {
+                            Console.WriteLine(item);
+                        }
+                        Console.ReadKey();
+                        break;
+                    case "7":
+                        Console.Clear();
+                        Console.Write("Digite o Id do usuário: ");
+                        int id = Console.Read();
+                        foreach (var item in GetPlansByUser(id))
+                        {
+                            Console.WriteLine(item);
+                        }
+                        Console.ReadKey();
+                        break;
+                    case "-1":
+                        Console.WriteLine("Bye!");
+                        Console.Clear();
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida!");
+                        break;
+                }
+            }
+            while (!op.Equals("-1"));
         }
 
     }

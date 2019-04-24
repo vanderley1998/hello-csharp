@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Dapper;
 
@@ -25,7 +23,20 @@ namespace Plans.Database
 
         public PlanType Save(PlanType obj)
         {
-            throw new NotImplementedException();
+            string query;
+            if (obj.Id == 0)
+            {
+                query = "INSERT INTO PLAN_TYPES (NAME) VALUES (@Name); SELECT CAST(SCOPE_IDENTITY() as int);";
+                var planTypeInserted = PlanModuleDB.OpenConnection().Query<int>(query, param: new { obj.Name });
+                obj.Id = planTypeInserted.Single();
+                return obj;
+            }
+            else
+            {
+                query = @"UPDATE PLAN_TYPES SET NAME = @Name WHERE ID = @Id";
+                int affectedLines = PlanModuleDB.OpenConnection().Execute(query, param: new { obj.Name, obj.Id });
+                return affectedLines > 0 ? obj : throw new ArgumentException($"There's no PlanType with id = {obj.Id} in database.");
+            }
         }
     }
 }

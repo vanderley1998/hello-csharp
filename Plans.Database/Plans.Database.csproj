@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataPlan.cs" />
+    <Compile Include="DataPlanInterestedUsers.cs" />
     <Compile Include="DataPlansHistory.cs" />
     <Compile Include="DataPlanStatus.cs" />
     <Compile Include="DataPlanType.cs" />
@@ -62,6 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

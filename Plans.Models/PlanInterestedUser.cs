@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Plans.Models
 {
-    class PlanInterestedUser
+    public class PlanInterestedUser
     {
 
         public PlanInterestedUser()
@@ -25,5 +25,10 @@ namespace Plans.Models
         public int Id { get; set; }
         public Plan Plan { get; set; }
         public User User { get; set; }
+
+        public override string ToString()
+        {
+            return $"[Id: {Id}, Plan: {Plan.Id}, User: {User}]";
+        }
     }
 }

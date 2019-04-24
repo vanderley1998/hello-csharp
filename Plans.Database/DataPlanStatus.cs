@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dapper;
 
 namespace Plans.Database
@@ -24,18 +22,20 @@ namespace Plans.Database
 
         public PlanStatus Save(PlanStatus obj)
         {
+            string query;
             if(obj.Id == 0)
             {
-                var planStatusInserted = PlanModuleDB.OpenConnection()
-                    .Query<int>(@"
-                        INSERT INTO PLAN_STATUS (NAME) VALUES (@Name);
-                        SELECT CAST(SCOPE_IDENTITY() as int)", param: new { obj.Name }
-                    );
+                query = "INSERT INTO PLAN_STATUS (NAME) VALUES (@Name); SELECT CAST(SCOPE_IDENTITY() as int);";
+                var planStatusInserted = PlanModuleDB.OpenConnection().Query<int>(query, param: new { obj.Name });
                 obj.Id = planStatusInserted.Single();
-                Console.WriteLine(obj);
                 return obj;
             }
-            return null;
+            else
+            {
+                query = @"UPDATE PLAN_STATUS SET NAME = @Name WHERE ID = @Id";
+                int affectedLines = PlanModuleDB.OpenConnection().Execute(query, param: new { obj.Name, obj.Id });
+                return affectedLines > 0 ? obj : throw new ArgumentException($"There's no PlanStatus with id = {obj.Id} in database.");
+            }
         }
     }
 }

@@ -25,7 +25,26 @@ namespace Plans.Database
 
         public User Save(User obj)
         {
-            throw new NotImplementedException();
+            string query;
+            if (obj.Id == 0)
+            {
+                query = @"
+                    INSERT INTO USERS (NAME, REGISTER_DATE, LAST_CHANGED_DATE, CAN_CREATE_PLAN, REMOVED)
+                    VALUES (@Name, @RegisterDate, @LastchangedDate, @CanCreatePlan, @Removed);
+                    SELECT CAST(SCOPE_IDENTITY() as int);
+                ";
+                var planStatusInserted = PlanModuleDB.OpenConnection()
+                    .Query<int>(query, param: new { obj.Name, obj.RegisterDate, obj.LastchangedDate, obj.CanCreatePlan, obj.Removed });
+                obj.Id = planStatusInserted.Single();
+                return obj;
+            }
+            else
+            {
+                query = @"UPDATE USERS SET NAME = @Name, CAN_CREATE_PLAN = @CanCreatePlan, REMOVED = @Removed WHERE ID = @Id";
+                int affectedLines = PlanModuleDB.OpenConnection()
+                    .Execute(query, param: new { obj.Id, obj.Name, obj.CanCreatePlan, obj.Removed });
+                return affectedLines > 0 ? obj : throw new ArgumentException($"There's no User with id = {obj.Id} in database.");
+            }
         }
     }
 }

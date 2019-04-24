@@ -17,6 +17,7 @@ namespace Plans.Database
         public DataPlanType DataPlanType { get; private set; }
         public DataPlansHistory DataPlansHistory { get; private set; }
         public DataUsersHistory DataUsersHistory { get; private set; }
+        public DataPlanInterestedUsers DataPlanInterestedUsers { get; private set; }
 
         public PlanModuleDB(string conn)
         {
@@ -31,6 +32,7 @@ namespace Plans.Database
             DataPlanType = new DataPlanType();
             DataPlansHistory = new DataPlansHistory();
             DataUsersHistory = new DataUsersHistory();
+            DataPlanInterestedUsers = new DataPlanInterestedUsers();
         }
 
         internal static SqlConnection OpenConnection()

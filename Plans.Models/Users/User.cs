@@ -24,6 +24,15 @@ namespace Plans.Models.Users
             Name = name;
         }
 
+        public User(string name, DateTime registerDate, DateTime lastchangedDate, bool canCreatePlan, bool removed)
+        {
+            Name = name;
+            RegisterDate = registerDate;
+            LastchangedDate = lastchangedDate;
+            CanCreatePlan = canCreatePlan;
+            Removed = removed;
+        }
+
         public User(int id, string name, DateTime registerDate, DateTime lastchangedDate, bool canCreatePlan, bool removed)
         {
             Id = id;
