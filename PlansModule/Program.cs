@@ -99,150 +99,6 @@ namespace PlansModule
             _listPlanByUser = qPlanByUser.ToList();
         }
 
-        static void ShowMenu()
-        {
-            Console.WriteLine("================= MENU =================");
-            Console.WriteLine("1. Usuários");
-            Console.WriteLine("2. Planos");
-            Console.WriteLine("3. Tipos de planos");
-            Console.WriteLine("4. Status de planos");
-            Console.WriteLine("-1. Sair");
-            Console.WriteLine("========================================");
-        }
-
-        static void SubMenu(string title)
-        {
-            string op;
-            do
-            {
-                Console.Clear();
-                Console.WriteLine($"================= {title.ToUpper()} =============");
-                Console.WriteLine("1. Editar");
-                Console.WriteLine("2. Cadastrar novo");
-                Console.WriteLine("3. Exibir");
-                Console.WriteLine("4. Remover");
-                Console.WriteLine("-1. Voltar");
-                Console.WriteLine("========================================");
-                Console.Write("Opção: ");
-                op = Console.ReadLine();
-                MenuAction(title, op);
-            } while (!op.Equals("-1"));
-        }
-
-        static void MenuAction(string title, string op)
-        {
-            if (title.Equals("Usuários"))
-            {
-                switch (op)
-                {
-                    case "1":
-                        Console.Clear();
-                        UpdateUser();
-                        Console.ReadKey();
-                        break;
-                    case "2":
-                        Console.Clear();
-                        CreateUser();
-                        Console.ReadKey();
-                        break;
-                    case "3":
-                        Console.Clear();
-                        _dictionaryUsers.ShowData();
-                        Console.ReadKey();
-                        break;
-                    case "4":
-                        Console.Clear();
-                        Delete(_planModuleDB.DataUser, new User());
-                        Console.ReadKey();
-                        break;
-                }
-            }
-            if (title.Equals("Planos"))
-            {
-                switch (op)
-                {
-                    case "1":
-                        Console.Clear();
-                        UpdatePlan();
-                        Console.ReadKey();
-                        break;
-                    case "2":
-                        Console.Clear();
-                        CreatePlan();
-                        Console.ReadKey();
-                        break;
-                    case "3":
-                        Console.Clear();
-                        _dictionaryPlans.ShowData();
-                        Console.ReadKey();
-                        break;
-                    case "4":
-                        Console.Clear();
-                        Delete(_planModuleDB.DataPlan, new Plan());
-                        Console.ReadKey();
-                        break;
-                }
-            }
-            if (title.Equals("Tipos de planos"))
-            {
-                switch (op)
-                {
-                    case "1":
-                        Console.Clear();
-                        UpdatePlanType();
-                        Console.ReadKey();
-                        break;
-                    case "2":
-                        Console.Clear();
-                        CreatePlanType();
-                        Console.ReadKey();
-                        break;
-                    case "3":
-                        Console.Clear();
-                        foreach (var item in _listPlanTypes.ToList())
-                        {
-                            Console.WriteLine(item);
-                        }
-                        Console.ReadKey();
-                        break;
-                    case "4":
-                        Console.Clear();
-                        Delete(_planModuleDB.DataPlanType, new PlanType());
-                        Console.ReadKey();
-                        break;
-                }
-            }
-            if (title.Equals("Status de planos"))
-            {
-                switch (op)
-                {
-                    case "1":
-                        Console.Clear();
-                        UpdatePlanStatus();
-                        Console.ReadKey();
-                        break;
-                    case "2":
-                        Console.Clear();
-                        CreatePlanStatus();
-                        Console.ReadKey();
-                        break;
-                    case "3":
-                        Console.Clear();
-                        foreach (var item in _listPlanStatus.ToList())
-                        {
-                            Console.WriteLine(item);
-                        }
-                        Console.ReadKey();
-                        break;
-                    case "4":
-                        Console.Clear();
-                        Delete(_planModuleDB.DataPlanStatus, new PlanStatus());
-                        Console.ReadKey();
-                        break;
-                }
-            }
-        }
-
         static void Delete<TCrud, TObj>(ICrud<TCrud> crud, TObj obj)
         {
             try
@@ -470,14 +326,17 @@ namespace PlansModule
 
         static void MainMenu()
         {
-            Console.WriteLine("Carregamento...");
-            Init();
-            Console.Clear();
             string op;
             do
             {
                 Console.Clear();
-                ShowMenu();
+                Console.WriteLine("================= MENU =================");
+                Console.WriteLine("1. Usuários");
+                Console.WriteLine("2. Planos");
+                Console.WriteLine("3. Tipos de planos");
+                Console.WriteLine("4. Status de planos");
+                Console.WriteLine("-1. Sair");
+                Console.WriteLine("========================================");
                 Console.Write("Opção: ");
                 op = Console.ReadLine();
                 switch (op)
@@ -506,8 +365,144 @@ namespace PlansModule
             while (!op.Equals("-1"));
         }
 
+        static void SubMenu(string title)
+        {
+            string op;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine($"================= {title.ToUpper()} =============");
+                Console.WriteLine("1. Editar");
+                Console.WriteLine("2. Cadastrar novo");
+                Console.WriteLine("3. Exibir");
+                Console.WriteLine("4. Remover");
+                Console.WriteLine("-1. Voltar");
+                Console.WriteLine("========================================");
+                Console.Write("Opção: ");
+                op = Console.ReadLine();
+                MenuAction(title, op);
+            } while (!op.Equals("-1"));
+        }
+
+        static void MenuAction(string title, string op)
+        {
+            if (title.Equals("Usuários"))
+            {
+                switch (op)
+                {
+                    case "1":
+                        Console.Clear();
+                        UpdateUser();
+                        Console.ReadKey();
+                        break;
+                    case "2":
+                        Console.Clear();
+                        CreateUser();
+                        Console.ReadKey();
+                        break;
+                    case "3":
+                        Console.Clear();
+                        _dictionaryUsers.ShowData();
+                        Console.ReadKey();
+                        break;
+                    case "4":
+                        Console.Clear();
+                        Delete(_planModuleDB.DataUser, new User());
+                        Console.ReadKey();
+                        break;
+                }
+            }
+            if (title.Equals("Planos"))
+            {
+                switch (op)
+                {
+                    case "1":
+                        Console.Clear();
+                        UpdatePlan();
+                        Console.ReadKey();
+                        break;
+                    case "2":
+                        Console.Clear();
+                        CreatePlan();
+                        Console.ReadKey();
+                        break;
+                    case "3":
+                        Console.Clear();
+                        _dictionaryPlans.ShowData();
+                        Console.ReadKey();
+                        break;
+                    case "4":
+                        Console.Clear();
+                        Delete(_planModuleDB.DataPlan, new Plan());
+                        Console.ReadKey();
+                        break;
+                }
+            }
+            if (title.Equals("Tipos de planos"))
+            {
+                switch (op)
+                {
+                    case "1":
+                        Console.Clear();
+                        UpdatePlanType();
+                        Console.ReadKey();
+                        break;
+                    case "2":
+                        Console.Clear();
+                        CreatePlanType();
+                        Console.ReadKey();
+                        break;
+                    case "3":
+                        Console.Clear();
+                        foreach (var item in _listPlanTypes.ToList())
+                        {
+                            Console.WriteLine(item);
+                        }
+                        Console.ReadKey();
+                        break;
+                    case "4":
+                        Console.Clear();
+                        Delete(_planModuleDB.DataPlanType, new PlanType());
+                        Console.ReadKey();
+                        break;
+                }
+            }
+            if (title.Equals("Status de planos"))
+            {
+                switch (op)
+                {
+                    case "1":
+                        Console.Clear();
+                        UpdatePlanStatus();
+                        Console.ReadKey();
+                        break;
+                    case "2":
+                        Console.Clear();
+                        CreatePlanStatus();
+                        Console.ReadKey();
+                        break;
+                    case "3":
+                        Console.Clear();
+                        foreach (var item in _listPlanStatus.ToList())
+                        {
+                            Console.WriteLine(item);
+                        }
+                        Console.ReadKey();
+                        break;
+                    case "4":
+                        Console.Clear();
+                        Delete(_planModuleDB.DataPlanStatus, new PlanStatus());
+                        Console.ReadKey();
+                        break;
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
+            Console.WriteLine("Carregamento...");
+            Init();
+            Console.Clear();
             MainMenu();
         }
 
