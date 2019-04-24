@@ -10,7 +10,7 @@ namespace Plans.Models.Plans
 {
     public class Plan
     {
-       
+
         public Plan()
         {
         }
@@ -31,6 +31,15 @@ namespace Plans.Models.Plans
             Id = id;
             Name = name;
             User = user;
+        }
+
+        public Plan(int id, string name, PlanType planType, User user, PlanStatus planStatus, DateTime sTART_DATE, DateTime eND_DATE) : this(id, name)
+        {
+            Type = planType;
+            User = user;
+            Status = planStatus;
+            StartDate = sTART_DATE;
+            EndDate = eND_DATE;
         }
 
         public Plan(string name, PlanType type, User user, PlanStatus status, DateTime startDate, DateTime endDate, string description, decimal cost)

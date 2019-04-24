@@ -17,11 +17,6 @@ namespace Plans.Models.Plans
             Id = id;
         }
 
-        public PlanType(string name)
-        {
-            Name = name;
-        }
-
         public PlanType(int id, string name)
         {
             Id = id;

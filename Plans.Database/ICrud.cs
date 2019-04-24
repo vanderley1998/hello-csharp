@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Plans.Database
 {
-    interface ICrud<T>
+    public interface ICrud<T>
     {
         IEnumerable<T> GetAll();
         bool Delete(int id);

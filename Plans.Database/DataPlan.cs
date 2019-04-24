@@ -20,7 +20,7 @@ namespace Plans.Database
         public IEnumerable<Plan> GetAll()
         {
             IEnumerable<Plan> list = PlanModuleDB.OpenConnection()
-                .Query<Plan, User, Plan>("SELECT * FROM PLANS P INNER JOIN USERS U ON U.ID = P.ID",
+                .Query<Plan, User, Plan>("SELECT * FROM PLANS P INNER JOIN USERS U ON U.ID = P.ID_USER",
                     map: (plan, user) =>
                     {
                         plan.User = user;

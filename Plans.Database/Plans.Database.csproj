@@ -54,6 +54,9 @@
     <Compile Include="ICrud.cs" />
     <Compile Include="PlanModuleDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\ViewInterestedUsersByPlan.cs" />
+    <Compile Include="View\ViewPlansByUsers.cs" />
+    <Compile Include="View\ViewTotalPlansByUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Plans.Models\Plans.Models.csproj">
@@ -64,8 +67,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="View\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Plans.Database.View;
+using Plans.Models.View;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -18,6 +20,9 @@ namespace Plans.Database
         public DataPlansHistory DataPlansHistory { get; private set; }
         public DataUsersHistory DataUsersHistory { get; private set; }
         public DataPlanInterestedUsers DataPlanInterestedUsers { get; private set; }
+        public ViewInterestedUsersByPlan ViewInterestedUsersByPlan { get; private set; }
+        public ViewTotalPlansByUser ViewTotalPlansByUser { get; set; }
+        public ViewPlansByUsers ViewPlansByUsers { get; set; }
 
         public PlanModuleDB(string conn)
         {
@@ -33,6 +38,9 @@ namespace Plans.Database
             DataPlansHistory = new DataPlansHistory();
             DataUsersHistory = new DataUsersHistory();
             DataPlanInterestedUsers = new DataPlanInterestedUsers();
+            ViewInterestedUsersByPlan = new ViewInterestedUsersByPlan();
+            ViewTotalPlansByUser = new ViewTotalPlansByUser();
+            ViewPlansByUsers = new ViewPlansByUsers();
         }
 
         internal static SqlConnection OpenConnection()

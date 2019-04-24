@@ -65,7 +65,7 @@ namespace Plans.Models.Users
         }
         public override string ToString()
         {
-            return $"\t[Id: {Id}, Name: {Name}]";
+            return $"\t[Id: {Id}, Name: {Name}, Removed: {Removed}]";
         }
 
     }

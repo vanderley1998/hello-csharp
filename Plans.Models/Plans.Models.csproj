@@ -53,6 +53,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Users\User.cs" />
     <Compile Include="Users\UserHistory.cs" />
+    <Compile Include="View\InterestedUsersByPlan.cs" />
+    <Compile Include="View\PlanByUser.cs" />
+    <Compile Include="View\TotalPlansByUser.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
