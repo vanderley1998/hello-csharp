@@ -46,5 +46,10 @@ namespace Plans.Database
                 return affectedLines > 0 ? obj : throw new ArgumentException($"There's no User with id = {obj.Id} in database.");
             }
         }
+
+        public User Get(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

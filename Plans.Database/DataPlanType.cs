@@ -15,6 +15,11 @@ namespace Plans.Database
             return affectedLines > 0;
         }
 
+        public PlanType Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<PlanType> GetAll()
         {
             IEnumerable<PlanType> list = PlanModuleDB.OpenConnection().Query<PlanType>("SELECT * FROM PLAN_TYPES");

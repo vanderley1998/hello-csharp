@@ -15,6 +15,11 @@ namespace Plans.Database.View
             throw new NotImplementedException();
         }
 
+        public InterestedUsersByPlan Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<InterestedUsersByPlan> GetAll()
         {
             IEnumerable<InterestedUsersByPlan> list = PlanModuleDB.OpenConnection()

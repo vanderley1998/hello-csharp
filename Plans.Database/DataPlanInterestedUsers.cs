@@ -17,6 +17,11 @@ namespace Plans.Database
             return affectedLines > 0;
         }
 
+        public PlanInterestedUser Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<PlanInterestedUser> GetAll()
         {
             IEnumerable<PlanInterestedUser> list = PlanModuleDB.OpenConnection()

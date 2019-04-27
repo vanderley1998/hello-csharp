@@ -14,6 +14,11 @@ namespace Plans.Database
             return affectedLines > 0;
         }
 
+        public PlanStatus Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<PlanStatus> GetAll()
         {
             IEnumerable<PlanStatus> list = PlanModuleDB.OpenConnection().Query<PlanStatus>("SELECT * FROM PLAN_STATUS");

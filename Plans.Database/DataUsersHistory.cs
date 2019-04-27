@@ -16,6 +16,11 @@ namespace Plans.Database
             throw new NotImplementedException();
         }
 
+        public UserHistory Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<UserHistory> GetAll()
         {
             IEnumerable<UserHistory> list = PlanModuleDB.OpenConnection()
