@@ -13,7 +13,15 @@ namespace Plans.Database
     {
         public IEnumerable<User> GetAll()
         {
-            IEnumerable<User> list = PlanModuleDB.OpenConnection().Query<User>("SELECT * FROM USERS");
+            IEnumerable<User> list = PlanModuleDB.OpenConnection().Query<User>(@"
+                SELECT
+                    ID, NAME,
+                    REGISTER_DATE AS RegisterDate,
+                    LAST_CHANGED_DATE AS LastchangedDate,
+                    CAN_CREATE_PLAN AS CanCreatePlan,
+                    REMOVED
+                FROM USERS
+            ");
             return list;
         }
 
@@ -49,7 +57,25 @@ namespace Plans.Database
 
         public User Get(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var userFound = PlanModuleDB.OpenConnection()
+                    .Query<User>(@"
+                        SELECT
+                            ID, NAME,
+                            REGISTER_DATE AS RegisterDate,
+                            LAST_CHANGED_DATE AS LastchangedDate,
+                            CAN_CREATE_PLAN AS CanCreatePlan,
+                            REMOVED
+                        FROM USERS
+                        WHERE ID = @id
+                    ", param: new { id });
+                return userFound.First();
+            }
+            catch (InvalidOperationException e)
+            {
+                throw e;
+            }
         }
     }
 }

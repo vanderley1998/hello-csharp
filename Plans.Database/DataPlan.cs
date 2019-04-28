@@ -16,7 +16,9 @@ namespace Plans.Database
         {
             try
             {
-                int affectedLines = PlanModuleDB.OpenConnection().Execute($"EXEC DELETE_PLAN_REGISTERS_FROM_ALL_TABLES @ID = @Id", new { Id = id });
+                int affectedLines = PlanModuleDB.OpenConnection().Execute(
+                    $"EXEC DELETE_PLAN_REGISTERS_FROM_ALL_TABLES @ID = @Id", new { Id = id }
+                );
                 return affectedLines > 0;
             }
             catch (SqlException e)
@@ -29,24 +31,28 @@ namespace Plans.Database
         {
             try
             {
-                var planFinded = PlanModuleDB.OpenConnection()
-                .Query<Plan, User, PlanStatus, PlanType, Plan>(@"
-                    SELECT P.ID, P.NAME, P.START_DATE as StartDate, P.END_DATE as EndDate, P.DESCRIPTION, P.COST, PT.ID, PT.NAME, PS.ID, PS.NAME, U.ID, U.NAME
-                    FROM PLANS P
-                    INNER JOIN USERS U ON U.ID = P.ID_USER
-                    INNER JOIN PLAN_STATUS PS ON PS.ID = P.ID_STATUS
-                    INNER JOIN PLAN_TYPES PT ON PT.ID = P.ID_TYPE
-                    WHERE P.ID = @id
-                ", param: new { id },
-                    map: (plan, user, status, type) =>
-                    {
-                        plan.User = user;
-                        plan.Status = status;
-                        plan.Type = type;
-                        return plan;
-                    }
-                );
-                return planFinded.First();
+                var planFound = PlanModuleDB.OpenConnection()
+                    .Query<Plan, User, PlanStatus, PlanType, Plan>(@"
+                        SELECT
+                            P.ID, P.NAME,
+                            P.START_DATE as StartDate,
+                            P.END_DATE as EndDate,
+                            P.DESCRIPTION, P.COST, PT.ID, PT.NAME, PS.ID, PS.NAME, U.ID, U.NAME
+                        FROM PLANS P
+                        INNER JOIN USERS U ON U.ID = P.ID_USER
+                        INNER JOIN PLAN_STATUS PS ON PS.ID = P.ID_STATUS
+                        INNER JOIN PLAN_TYPES PT ON PT.ID = P.ID_TYPE
+                        WHERE P.ID = @id
+                    ", param: new { id },
+                        map: (plan, user, status, type) =>
+                        {
+                            plan.User = user;
+                            plan.Status = status;
+                            plan.Type = type;
+                            return plan;
+                        }
+                    );
+                return planFound.First();
             }
             catch (InvalidOperationException e)
             {
@@ -58,7 +64,11 @@ namespace Plans.Database
         {
             IEnumerable<Plan> list = PlanModuleDB.OpenConnection()
                 .Query<Plan, User, PlanStatus, PlanType, Plan>(@"
-                    SELECT P.ID, P.NAME, P.START_DATE as StartDate, P.END_DATE as EndDate, P.DESCRIPTION, P.COST, PT.ID, PT.NAME, PS.ID, PS.NAME, U.ID, U.NAME
+                    SELECT
+                        P.ID, P.NAME,
+                        P.START_DATE as StartDate,
+                        P.END_DATE as EndDate,
+                        P.DESCRIPTION, P.COST, PT.ID, PT.NAME, PS.ID, PS.NAME, U.ID, U.NAME
                     FROM PLANS P
                     INNER JOIN USERS U ON U.ID = P.ID_USER
                     INNER JOIN PLAN_STATUS PS ON PS.ID = P.ID_STATUS

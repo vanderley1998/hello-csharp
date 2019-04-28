@@ -24,15 +24,6 @@ namespace Plans.Models.Users
             Name = name;
         }
 
-        public User(string name, DateTime registerDate, DateTime lastchangedDate, bool canCreatePlan, bool removed)
-        {
-            Name = name;
-            RegisterDate = registerDate;
-            LastchangedDate = lastchangedDate;
-            CanCreatePlan = canCreatePlan;
-            Removed = removed;
-        }
-
         public User(int id, string name, DateTime registerDate, DateTime lastchangedDate, bool canCreatePlan, bool removed)
         {
             Id = id;
@@ -65,7 +56,7 @@ namespace Plans.Models.Users
         }
         public override string ToString()
         {
-            return $"\t[Id: {Id}, Name: {Name}, Removed: {Removed}]";
+            return $"\t[Id: {Id}, Name: {Name}, Removed: {Removed}], RegisterDate: {RegisterDate}";
         }
 
     }

@@ -70,19 +70,18 @@ namespace Plans.Api.Controllers
                 Console.WriteLine(e.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError); // <--- PERGUNTAR QUAL A MELHOR FORMA DE EXPOR SQL EXCEPTION
             }
-            
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] PlanApi plan)
+        public IActionResult Update([FromBody] PlanApi planApi)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    if (plan.Id <= 0) { return BadRequest($"The plan's id is required or is invalid: {plan.Id}"); }
-                    var idPlan = CacheIds.First(p => p == plan.Id);
-                    var convertedPlan = plan.ToPlan();
+                    if (planApi.Id <= 0) { return BadRequest($"The plan's id is required or is invalid: {planApi.Id}"); }
+                    var idPlan = CacheIds.First(p => p == planApi.Id);
+                    var convertedPlan = planApi.ToPlan();
                     var updatedPlan = ConnectionDB.PlansModule.DataPlan.Save(convertedPlan);
                     if (updatedPlan != null)
                     {
@@ -93,7 +92,7 @@ namespace Plans.Api.Controllers
             }
             catch (InvalidOperationException)
             {
-                return NotFound($"There's no plan with id = {plan.Id}");
+                return NotFound($"There's no plan with id = {planApi.Id}");
             }
             catch (Exception e)
             {
