@@ -17,13 +17,30 @@ namespace Plans.Database
 
         public PlanType Get(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var planTypeFound = PlanModuleDB.OpenConnection()
+                    .Query<PlanType>(@"
+                        SELECT * FROM PLAN_TYPES
+                        WHERE ID = @id
+                    ", param: new { id });
+                return planTypeFound.First();
+            }
+            catch (InvalidOperationException e)
+            {
+                throw e;
+            }
         }
 
         public IEnumerable<PlanType> GetAll()
         {
             IEnumerable<PlanType> list = PlanModuleDB.OpenConnection().Query<PlanType>("SELECT * FROM PLAN_TYPES");
             return list;
+        }
+
+        public IEnumerable<PlanType> GetById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public PlanType Save(PlanType obj)

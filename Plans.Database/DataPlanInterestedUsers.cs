@@ -39,6 +39,11 @@ namespace Plans.Database
             return list;
         }
 
+        public IEnumerable<PlanInterestedUser> GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public PlanInterestedUser Save(PlanInterestedUser obj)
         {
             string query;

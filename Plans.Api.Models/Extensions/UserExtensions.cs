@@ -11,8 +11,6 @@ namespace Plans.Api.Models.Extensions
     {
         public static UserApi ToUserApi(this User user)
         {
-            Console.WriteLine(user);
-
             return new UserApi
             {
                 Id = user.Id,

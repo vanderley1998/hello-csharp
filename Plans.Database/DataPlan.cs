@@ -85,6 +85,11 @@ namespace Plans.Database
             return list;
         }
 
+        public IEnumerable<Plan> GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Plan Save(Plan obj)
         {
             try

@@ -33,6 +33,11 @@ namespace Plans.Database
             return list;
         }
 
+        public IEnumerable<UserHistory> GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public UserHistory Save(UserHistory obj)
         {
             throw new NotImplementedException();

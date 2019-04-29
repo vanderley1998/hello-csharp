@@ -43,10 +43,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\PlanExtensions.cs" />
+    <Compile Include="Extensions\PlanHistoryExtensions.cs" />
     <Compile Include="Extensions\UserExtensions.cs" />
-    <Compile Include="PlanApi.cs" />
+    <Compile Include="Plan\PlanApi.cs" />
+    <Compile Include="Plan\PlanHistoryApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserApi.cs" />
+    <Compile Include="User\UserApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Plans.Models\Plans.Models.csproj">

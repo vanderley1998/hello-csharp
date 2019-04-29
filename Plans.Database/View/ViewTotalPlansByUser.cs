@@ -28,6 +28,11 @@ namespace Plans.Database.View
             return list;
         }
 
+        public IEnumerable<TotalPlansByUser> GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public TotalPlansByUser Save(TotalPlansByUser obj)
         {
             throw new NotImplementedException();

@@ -16,13 +16,30 @@ namespace Plans.Database
 
         public PlanStatus Get(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var planStatusFound = PlanModuleDB.OpenConnection()
+                    .Query<PlanStatus>(@"
+                        SELECT * FROM PLAN_STATUS
+                        WHERE ID = @id
+                    ", param: new { id });
+                return planStatusFound.First();
+            }
+            catch (InvalidOperationException e)
+            {
+                throw e;
+            }
         }
 
         public IEnumerable<PlanStatus> GetAll()
         {
             IEnumerable<PlanStatus> list = PlanModuleDB.OpenConnection().Query<PlanStatus>("SELECT * FROM PLAN_STATUS");
             return list;
+        }
+
+        public IEnumerable<PlanStatus> GetById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public PlanStatus Save(PlanStatus obj)

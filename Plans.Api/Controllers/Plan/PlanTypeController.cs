@@ -4,42 +4,40 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Plans.Api.Models;
-using Plans.Api.Models.Extensions;
+using Plans.Models.Plans;
 
-namespace Plans.Api.Controllers
+namespace Plans.Api.Controllers.Plan
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase, IServicesApi<UserApi>
+    public class PlanTypeController : ControllerBase, IServicesApi<PlanType>
     {
         public ISet<int> CacheIds { get; }
 
-        public UserController()
+        public PlanTypeController()
         {
-            CacheIds = ConnectionDB.PlansModule.DataUser.GetAll().Select(u => u.Id).ToHashSet();
+            CacheIds = ConnectionDB.PlansModule.DataPlanType.GetAll().Select(pt => pt.Id).ToHashSet();
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] UserApi user)
+        public IActionResult Create([FromBody] PlanType planType)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    user.Id = 0;
-                    var convertedUser = user.ToUser();
-                    convertedUser.LastchangedDate = convertedUser.RegisterDate;
-                    var createdUser = ConnectionDB.PlansModule.DataUser.Save(convertedUser);
-                    if (createdUser != null)
+                    planType.Id = 0;
+                    var createdPlanType = ConnectionDB.PlansModule.DataPlanType.Save(planType);
+                    if (createdPlanType != null)
                     {
-                        CacheIds.Add(createdUser.Id);
+                        CacheIds.Add(createdPlanType.Id);
                         //var uri = Url.Action("Plan", new { id = createdPlan.Id }); <--- TIRAR DÚVIDA PQ NÃO FUNCIONA. RETORNANDO VÁZIO!
                         //return Created(uri, plan);
-                        return Ok(new { createdUser.Id });
+                        return Ok(new { createdPlanType.Id });
                     }
                 }
-                return BadRequest("The plan object received isn't valid");
+                return BadRequest("The plan'type object received isn't valid");
             }
             catch (Exception e)
             {
@@ -53,21 +51,20 @@ namespace Plans.Api.Controllers
         {
             try
             {
-                var idUser = CacheIds.First(u => u == id);
-                var user = ConnectionDB.PlansModule.DataUser.Get(idUser).ToUserApi();
-                return Ok(user);
+                var idPlanType = CacheIds.First(pt => pt == id);
+                var planType = ConnectionDB.PlansModule.DataPlanType.Get(idPlanType);
+                return Ok(planType);
             }
             catch (InvalidOperationException)
             {
-                return NotFound($"There's no user with id = {id}");
+                return NotFound($"There's no plan'type with id = {id}");
             }
         }
 
         [HttpGet]
         public IActionResult List()
         {
-            Console.WriteLine("TEste <<<<<<<<<<<<<<<<<<<<<<<");
-            var list = ConnectionDB.PlansModule.DataUser.GetAll().Select(u => u.ToUserApi()).ToList();
+            var list = ConnectionDB.PlansModule.DataPlanType.GetAll().ToList();
             return Ok(list);
         }
 
@@ -76,15 +73,15 @@ namespace Plans.Api.Controllers
         {
             try
             {
-                var idUser = CacheIds.First(u => u == id);
-                var userFlag = ConnectionDB.PlansModule.DataUser.Delete(idUser);
-                if (userFlag) { CacheIds.Remove(idUser); }
+                var idPlanType = CacheIds.First(pt => pt == id);
+                var planTypeFlag = ConnectionDB.PlansModule.DataPlanType.Delete(idPlanType);
+                if (planTypeFlag) { CacheIds.Remove(idPlanType); }
                 return NoContent();
             }
             catch (InvalidOperationException e)
             {
                 Console.WriteLine(e.Message);
-                return NotFound($"There's no user with id = {id}");
+                return NotFound($"There's no plan'type with id = {id}");
             }
             catch (Exception e)
             {
@@ -94,17 +91,16 @@ namespace Plans.Api.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] UserApi userApi)
+        public IActionResult Update([FromBody] PlanType planType)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    if (userApi.Id <= 0) { return BadRequest($"The user's id is required or is invalid: {userApi.Id}"); }
-                    var idUser = CacheIds.First(u => u == userApi.Id);
-                    var convertedUser = userApi.ToUser();
-                    var updatedUser = ConnectionDB.PlansModule.DataUser.Save(convertedUser);
-                    if (convertedUser != null)
+                    if (planType.Id <= 0) { return BadRequest($"The plan'type id is required or is invalid: {planType.Id}"); }
+                    var idPlanType = CacheIds.First(pt => pt == planType.Id);
+                    var updatedPlanType = ConnectionDB.PlansModule.DataPlanType.Save(planType);
+                    if (updatedPlanType != null)
                     {
                         return Ok();
                     }
@@ -113,13 +109,18 @@ namespace Plans.Api.Controllers
             }
             catch (InvalidOperationException)
             {
-                return NotFound($"There's no user with id = {userApi.Id}");
+                return NotFound($"There's no plan'type with id = {planType.Id}");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError); // <--- PERGUNTAR QUAL A MELHOR FORMA DE EXPOR SQL EXCEPTION
             }
+        }
+
+        public IActionResult ListById(int id)
+        {
+            return NotFound();
         }
     }
 }

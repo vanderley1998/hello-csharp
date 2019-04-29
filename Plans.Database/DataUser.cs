@@ -77,5 +77,10 @@ namespace Plans.Database
                 throw e;
             }
         }
+
+        public IEnumerable<User> GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

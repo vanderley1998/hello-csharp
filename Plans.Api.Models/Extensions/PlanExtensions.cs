@@ -28,6 +28,20 @@ namespace Plans.Api.Models.Extensions
 
         public static Plan ToPlan(this PlanApi planApi)
         {
+            DateTime startDate;
+            DateTime endDate;
+
+            if (string.IsNullOrEmpty(planApi.StartDate))
+            {
+                startDate = DateTime.Parse("3000-01-01 00:00:00");
+                Console.WriteLine(startDate);
+            }
+            if (string.IsNullOrEmpty(planApi.StartDate))
+            {
+                endDate = DateTime.Parse("3000-01-01 00:00:00");
+                Console.WriteLine(endDate);
+            }
+
             return new Plan
             {
                 Id = planApi.Id,
@@ -35,8 +49,8 @@ namespace Plans.Api.Models.Extensions
                 Type = new PlanType(planApi.Type),
                 User = new User(planApi.User),
                 Status = new PlanStatus(planApi.Status),
-                StartDate = DateTime.Parse(planApi.StartDate),
-                EndDate = DateTime.Parse(planApi.EndDate),
+                StartDate = startDate,
+                EndDate = endDate,
                 Description = planApi.Description,
                 Cost = planApi.Cost
             };

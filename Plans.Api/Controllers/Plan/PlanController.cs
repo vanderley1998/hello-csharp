@@ -11,7 +11,8 @@ using Plans.Api.Models.Extensions;
 
 namespace Plans.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     public class PlanController : ControllerBase, IServicesApi<PlanApi>
     {
@@ -54,11 +55,15 @@ namespace Plans.Api.Controllers
                 {
                     plan.Id = 0;
                     var convertedPlan = plan.ToPlan();
+                    Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+                    Console.WriteLine(convertedPlan);
                     var createdPlan = ConnectionDB.PlansModule.DataPlan.Save(convertedPlan);
                     if (createdPlan != null)
                     {
                         CacheIds.Add(createdPlan.Id);
-                        //var uri = Url.Action("Plan", new { id = createdPlan.Id }); <--- TIRAR DÚVIDA PQ NÃO FUNCIONA. RETORNANDO VÁZIO!
+                        //var uri = Url.Action("api/v1.0/Plan", values: new { id = createdPlan.Id });
+                        //Console.WriteLine("teste <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+                        //Console.WriteLine(uri);
                         //return Created(uri, plan);
                         return Ok(new { createdPlan.Id });
                     }
@@ -68,6 +73,7 @@ namespace Plans.Api.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
                 return StatusCode(StatusCodes.Status500InternalServerError); // <--- PERGUNTAR QUAL A MELHOR FORMA DE EXPOR SQL EXCEPTION
             }
         }
@@ -123,5 +129,9 @@ namespace Plans.Api.Controllers
             }
         }
 
+        public IActionResult ListById(int id)
+        {
+            return NotFound();
+        }
     }
 }
