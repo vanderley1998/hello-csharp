@@ -8,22 +8,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Plans.Api.Models;
 using Plans.Api.Models.Extensions;
+using Plans.Models;
+using Plans.Models.Users;
 
 namespace Plans.Api.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    public class PlanController : ControllerBase, IServicesApi<PlanApi>
+    public class PlanController : ControllerBase
     {
-
-        public ISet<int> CacheIds { get; }
-
-        public PlanController()
-        {
-            CacheIds = ConnectionDB.PlansModule.DataPlan.GetAll().Select(p => p.Id).ToHashSet();
-        }
-
         [HttpGet]
         public IActionResult List()
         {
@@ -41,41 +35,40 @@ namespace Plans.Api.Controllers
         {
             try
             {
-                var idPlan = CacheIds.First(p => p == id);
-                var plan = ConnectionDB.PlansModule.DataPlan.Get(idPlan).ToPlanApi();
-                var interestedIdUsers = ConnectionDB.PlansModule.DataPlanInterestedUsers.GetById(idPlan).Select(p => p.User.Id).ToList();
+                var plan = ConnectionDB.PlansModule.DataPlan.Get(id).ToPlanApi();
+                var interestedIdUsers = ConnectionDB.PlansModule.DataPlanInterestedUsers.GetById(id).Select(p => p.User.Id).ToList();
                 plan.InterestedUsers = interestedIdUsers;
                 return Ok(plan);
             }
-            catch (InvalidOperationException)
+            catch (Exception e)
             {
-                return NotFound($"There's no plan with id = {id}");
+                return NotFound(ErrorResponse.From(e));
             }
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] PlanApi plan)
+        public IActionResult Create([FromBody] PlanApi planApi)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    plan.Id = 0;
-                    var convertedPlan = plan.ToPlan();
+                    planApi.Id = 0;
+                    var convertedPlan = planApi.ToPlan();
+                    convertedPlan.InterestedUsers = planApi.InterestedUsers.Select(i => new User(i)).ToList();
                     var createdPlan = ConnectionDB.PlansModule.DataPlan.Save(convertedPlan);
                     if (createdPlan != null)
                     {
-                        CacheIds.Add(createdPlan.Id);
-                        return Ok(new { createdPlan.Id });
+                        var uri = Url.Action("Create", planApi.Id);
+                        return Created(uri, planApi);
                     }
                 }
-                return BadRequest("The plan object received isn't valid");
+                return BadRequest(ErrorResponse.FromModelState(ModelState));
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                ErrorResponse errorResponse = ErrorResponse.From(e);
+                return StatusCode(500, errorResponse);
             }
         }
 
@@ -87,19 +80,11 @@ namespace Plans.Api.Controllers
                 if (ModelState.IsValid)
                 {
                     if (planApi.Id <= 0) { return BadRequest($"The plan's id is required or is invalid: {planApi.Id}"); }
-                    var idPlan = CacheIds.First(p => p == planApi.Id);
                     var convertedPlan = planApi.ToPlan();
                     var updatedPlan = ConnectionDB.PlansModule.DataPlan.Save(convertedPlan);
-                    if (updatedPlan != null)
-                    {
-                        return Ok();
-                    }
+                    if (updatedPlan != null) { return Ok(); }
                 }
                 return BadRequest();
-            }
-            catch (InvalidOperationException)
-            {
-                return NotFound($"There's no plan with id = {planApi.Id}");
             }
             catch (Exception e)
             {
@@ -114,14 +99,8 @@ namespace Plans.Api.Controllers
         {
             try
             {
-                var idPlan = CacheIds.First(p => p == id);
-                var planFlag = ConnectionDB.PlansModule.DataPlan.Delete(idPlan);
-                if (planFlag) { CacheIds.Remove(idPlan); }
+                var planFlag = ConnectionDB.PlansModule.DataPlan.Delete(id);
                 return NoContent();
-            }
-            catch (InvalidOperationException)
-            {
-                return NotFound($"There's no plan with id = {id}");
             }
             catch(Exception e)
             {

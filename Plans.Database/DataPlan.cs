@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Plans.Models.Users;
 using System.Data.SqlClient;
+using Plans.Models;
 
 // Transação
 // https://docs.microsoft.com/pt-br/dotnet/api/system.data.sqlclient.sqlconnection.begintransaction?view=netframework-4.8
@@ -93,32 +94,58 @@ namespace Plans.Database
             throw new NotImplementedException();
         }
 
-        public Plan Save(Plan obj)
+        public Plan Save(Plan plan)
         {
             try
             {
+                PlanModuleDB.ConnectionDB.Open();
+                SqlCommand command = PlanModuleDB.ConnectionDB.CreateCommand();
+                SqlTransaction transaction = PlanModuleDB.ConnectionDB.BeginTransaction();
+                command.Connection = PlanModuleDB.ConnectionDB;
+                command.Transaction = transaction;
                 string query;
-                if (obj.Id == 0)
+                var interestedUsers = plan.InterestedUsers.Select(i => new PlanInterestedUser { Plan = plan, User = i }).ToList();
+                if (plan.Id == 0)
                 {
                     query = @"
-                    INSERT INTO PLANS (NAME, ID_TYPE, ID_USER, ID_STATUS, START_DATE, END_DATE, DESCRIPTION, COST)
-                    VALUES (@Name, @IdType, @IdUser, 1, @StartDate, @EndDate, @Description, @Cost);
-                    SELECT CAST(SCOPE_IDENTITY() as int);";
-                    var planTypeInserted = PlanModuleDB.ConnectionDB
-                        .Query<int>(query, param: new { obj.Name, IdType = obj.Type.Id, IdUser = obj.User.Id, obj.StartDate, obj.EndDate, obj.Description, obj.Cost });
-                    obj.Id = planTypeInserted.Single();
-                    return obj;
+                        INSERT INTO PLANS (NAME, ID_TYPE, ID_USER, ID_STATUS, START_DATE, END_DATE, DESCRIPTION, COST)
+                        VALUES (@Name, @IdType, @IdUser, 1, @StartDate, @EndDate, @Description, @Cost);
+                        SELECT CAST(SCOPE_IDENTITY() as int);";
+                    var planTypeInserted = command.Connection
+                        .Query<int>(query, param: new { plan.Name, IdType = plan.Type.Id, IdUser = plan.User.Id, plan.StartDate, plan.EndDate, plan.Description, plan.Cost }, command.Transaction);
+                    plan.Id = planTypeInserted.Single();
+                    DataPlanInterestedUsers.Save(interestedUsers, command);
+                    command.Transaction.Commit();
+                    return plan;
                 }
                 else
                 {
-                    query = @"UPDATE PLANS SET NAME = @Name, ID_TYPE = @IdType, ID_STATUS = @IdStatus, ID_USER = @IdUser, START_DATE = @StartDate, END_DATE = @EndDate, DESCRIPTION = @Description, COST = @Cost WHERE ID = @Id";
-                    int affectedLines = PlanModuleDB.ConnectionDB.Execute(query, param: new { obj.Id, obj.Name, IdType = obj.Type.Id, IdStatus = obj.Status.Id, IdUser = obj.User.Id, obj.StartDate, obj.EndDate, obj.Description, obj.Cost });
-                    return affectedLines > 0 ? obj : throw new ArgumentException($"There's no Plan with id = {obj.Id} in database.");
+                    query = @"
+                        UPDATE PLANS
+                        SET 
+                            NAME = @Name, 
+                            ID_TYPE = @IdType, 
+                            ID_STATUS = @IdStatus, 
+                            ID_USER = @IdUser, 
+                            START_DATE = @StartDate, 
+                            END_DATE = @EndDate, 
+                            DESCRIPTION = @Description, 
+                            COST = @Cost 
+                        WHERE ID = @Id";
+                    int affectedLines = command.Connection.Execute(query, param: new { plan.Id, plan.Name, IdType = plan.Type.Id, IdStatus = plan.Status.Id, IdUser = plan.User.Id, plan.StartDate, plan.EndDate, plan.Description, plan.Cost }, command.Transaction);
+                    DataPlanInterestedUsers.Delete(plan.Id, command);
+                    DataPlanInterestedUsers.Save(interestedUsers, command);
+                    command.Transaction.Commit();
+                    return affectedLines > 0 ? plan : throw new ArgumentException($"There's no Plan with id = {plan.Id} in database.");
                 }
             }
             catch (SqlException e)
             {
                 throw e;
+            }
+            finally
+            {
+                PlanModuleDB.ConnectionDB.Close();
             }
         }
     }

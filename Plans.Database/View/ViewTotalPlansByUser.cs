@@ -18,7 +18,19 @@ namespace Plans.Database.View
 
         public TotalPlansByUser Get(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                IEnumerable<TotalPlansByUser> list = PlanModuleDB.ConnectionDB
+                .Query<TotalPlansByUser>(@"
+                    SELECT * FROM VIEW_TOTAL_PLANS_BY_USER
+                    WHERE USER_ID = @id
+                ", param: new { id });
+                return list.First();
+            }
+            catch (InvalidOperationException e)
+            {
+                throw e;
+            }
         }
 
         public IEnumerable<TotalPlansByUser> GetAll()

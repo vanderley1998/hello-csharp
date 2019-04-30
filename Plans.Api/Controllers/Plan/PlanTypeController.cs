@@ -11,15 +11,8 @@ namespace Plans.Api.Controllers.Plan
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    public class PlanTypeController : ControllerBase, IServicesApi<PlanType>
+    public class PlanTypeController : ControllerBase
     {
-        public ISet<int> CacheIds { get; }
-
-        public PlanTypeController()
-        {
-            CacheIds = ConnectionDB.PlansModule.DataPlanType.GetAll().Select(pt => pt.Id).ToHashSet();
-        }
-
         [HttpPost]
         public IActionResult Create([FromBody] PlanType planType)
         {
@@ -29,11 +22,7 @@ namespace Plans.Api.Controllers.Plan
                 {
                     planType.Id = 0;
                     var createdPlanType = ConnectionDB.PlansModule.DataPlanType.Save(planType);
-                    if (createdPlanType != null)
-                    {
-                        CacheIds.Add(createdPlanType.Id);
-                        return Ok(new { createdPlanType.Id });
-                    }
+                    if (createdPlanType != null) { return Ok(new { createdPlanType.Id }); }
                 }
                 return BadRequest("The plan'type object received isn't valid");
             }
@@ -47,16 +36,8 @@ namespace Plans.Api.Controllers.Plan
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            try
-            {
-                var idPlanType = CacheIds.First(pt => pt == id);
-                var planType = ConnectionDB.PlansModule.DataPlanType.Get(idPlanType);
-                return Ok(planType);
-            }
-            catch (InvalidOperationException)
-            {
-                return NotFound($"There's no plan'type with id = {id}");
-            }
+            var planType = ConnectionDB.PlansModule.DataPlanType.Get(id);
+            return Ok(planType);
         }
 
         [HttpGet]
@@ -71,19 +52,13 @@ namespace Plans.Api.Controllers.Plan
         {
             try
             {
-                var idPlanType = CacheIds.First(pt => pt == id);
-                var planTypeFlag = ConnectionDB.PlansModule.DataPlanType.Delete(idPlanType);
-                if (planTypeFlag) { CacheIds.Remove(idPlanType); }
+                var planTypeFlag = ConnectionDB.PlansModule.DataPlanType.Delete(id);
                 return NoContent();
-            }
-            catch (InvalidOperationException e)
-            {
-                Console.WriteLine(e.Message);
-                return NotFound($"There's no plan'type with id = {id}");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -96,22 +71,15 @@ namespace Plans.Api.Controllers.Plan
                 if (ModelState.IsValid)
                 {
                     if (planType.Id <= 0) { return BadRequest($"The plan'type id is required or is invalid: {planType.Id}"); }
-                    var idPlanType = CacheIds.First(pt => pt == planType.Id);
                     var updatedPlanType = ConnectionDB.PlansModule.DataPlanType.Save(planType);
-                    if (updatedPlanType != null)
-                    {
-                        return Ok();
-                    }
+                    if (updatedPlanType != null) { return Ok(); }
                 }
                 return BadRequest();
-            }
-            catch (InvalidOperationException)
-            {
-                return NotFound($"There's no plan'type with id = {planType.Id}");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

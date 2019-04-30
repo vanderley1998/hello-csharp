@@ -11,15 +11,8 @@ namespace Plans.Api.Controllers.Plan
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    public class PlanStatusController : ControllerBase, IServicesApi<PlanStatus>
+    public class PlanStatusController : ControllerBase
     {
-        public ISet<int> CacheIds { get; }
-
-        public PlanStatusController()
-        {
-            CacheIds = ConnectionDB.PlansModule.DataPlanStatus.GetAll().Select(ps => ps.Id).ToHashSet();
-        }
-
         [HttpPost]
         public IActionResult Create([FromBody] PlanStatus plan)
         {
@@ -29,17 +22,14 @@ namespace Plans.Api.Controllers.Plan
                 {
                     plan.Id = 0;
                     var createdPlanStatus = ConnectionDB.PlansModule.DataPlanStatus.Save(plan);
-                    if (createdPlanStatus != null)
-                    {
-                        CacheIds.Add(createdPlanStatus.Id);
-                        return Ok(new { createdPlanStatus.Id });
-                    }
+                    if (createdPlanStatus != null) { return Ok(new { createdPlanStatus.Id }); }
                 }
                 return BadRequest("The plan'status object received isn't valid");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -47,16 +37,8 @@ namespace Plans.Api.Controllers.Plan
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            try
-            {
-                var idPlanStatus = CacheIds.First(ps => ps == id);
-                var planStatus = ConnectionDB.PlansModule.DataPlanStatus.Get(idPlanStatus);
-                return Ok(planStatus);
-            }
-            catch (InvalidOperationException)
-            {
-                return NotFound($"There's no plan'status with id = {id}");
-            }
+            var planStatus = ConnectionDB.PlansModule.DataPlanStatus.Get(id);
+            return Ok(planStatus);
         }
 
         [HttpGet]
@@ -71,19 +53,13 @@ namespace Plans.Api.Controllers.Plan
         {
             try
             {
-                var idplanStatus = CacheIds.First(ps => ps == id);
-                var planStatusFlag = ConnectionDB.PlansModule.DataPlanStatus.Delete(idplanStatus);
-                if (planStatusFlag) { CacheIds.Remove(idplanStatus); }
+                var planStatusFlag = ConnectionDB.PlansModule.DataPlanStatus.Delete(id);
                 return NoContent();
-            }
-            catch (InvalidOperationException e)
-            {
-                Console.WriteLine(e.Message);
-                return NotFound($"There's no plan'status with id = {id}");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
@@ -96,22 +72,15 @@ namespace Plans.Api.Controllers.Plan
                 if (ModelState.IsValid)
                 {
                     if (planStatus.Id <= 0) { return BadRequest($"The plan'status id is required or is invalid: {planStatus.Id}"); }
-                    var idPlanStatus = CacheIds.First(ps => ps == planStatus.Id);
                     var updatedPlanStatus = ConnectionDB.PlansModule.DataPlanStatus.Save(planStatus);
-                    if (updatedPlanStatus != null)
-                    {
-                        return Ok();
-                    }
+                    if (updatedPlanStatus != null) { return Ok(); }
                 }
                 return BadRequest();
-            }
-            catch (InvalidOperationException)
-            {
-                return NotFound($"There's no plan'status with id = {planStatus.Id}");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

@@ -6,14 +6,15 @@ using System.Linq;
 using Dapper;
 using Plans.Models.Users;
 using Plans.Models.Plans;
+using System.Data.SqlClient;
 
 namespace Plans.Database
 {
     public class DataPlanInterestedUsers : ICrud<PlanInterestedUser>
     {
-        public bool Delete(int idPlan)
+        public static bool Delete(int idPlan, SqlCommand command)
         {
-            int affectedLines = PlanModuleDB.ConnectionDB.Execute($"DELETE FROM PLAN_INTERESTED_USERS WHERE ID_PLAN = @Id", new { Id = idPlan });
+            int affectedLines = command.Connection.Execute($"DELETE FROM PLAN_INTERESTED_USERS WHERE ID_PLAN = @Id", new { Id = idPlan }, command.Transaction);
             return affectedLines > 0;
         }
 
@@ -73,19 +74,47 @@ namespace Plans.Database
             else
             {
                 query = @"
-                        UPDATE PLAN_INTERESTED_USERS
-                        SET ID_PLAN = @IdPlan, ID_USER = @IdUser WHERE ID = @Id";
+                    UPDATE PLAN_INTERESTED_USERS
+                    SET ID_PLAN = @IdPlan, ID_USER = @IdUser WHERE ID = @Id";
                 int affectedLines = PlanModuleDB.ConnectionDB.Execute(query, param: new { obj.Id, IdPlan = obj.Plan.Id, IdUser = obj.User.Id });
                 return affectedLines > 0 ? obj : throw new ArgumentException($"There's no PlanInterestedUser with id = {obj.Id} in database.");
             }
         }
 
-        public void Save(List<PlanInterestedUser> list)
+        public static void Save(List<PlanInterestedUser> list, SqlCommand command)
         {
-            foreach (var item in list)
+            foreach (var planInterestedUser in list)
             {
-                Save(item);
+                Save(planInterestedUser, command);
             }
+        }
+
+        internal static PlanInterestedUser Save(PlanInterestedUser obj, SqlCommand command)
+        {
+            string query;
+            if (obj.Id == 0)
+            {
+                query = @"
+                    INSERT INTO PLAN_INTERESTED_USERS (ID_PLAN, ID_USER)
+                    VALUES (@IdPlan, @IdUser);
+                    SELECT CAST(SCOPE_IDENTITY() as int);";
+                var planTypeInserted = command.Connection.Query<int>(query, param: new { IdPlan = obj.Plan.Id, IdUser = obj.User.Id }, command.Transaction);
+                obj.Id = planTypeInserted.Single();
+                return obj;
+            }
+            else
+            {
+                query = @"
+                    UPDATE PLAN_INTERESTED_USERS
+                    SET ID_PLAN = @IdPlan, ID_USER = @IdUser WHERE ID = @Id";
+                int affectedLines = command.Connection.Execute(query, param: new { obj.Id, IdPlan = obj.Plan.Id, IdUser = obj.User.Id }, command.Transaction);
+                return affectedLines > 0 ? obj : throw new ArgumentException($"There's no PlanInterestedUser with id = {obj.Id} in database.");
+            }
+        }
+
+        public bool Delete(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
