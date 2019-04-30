@@ -10,10 +10,6 @@ namespace Plans.Models.Plans
 {
     public class Plan
     {
-
-        private DateTime _startDate;
-        private DateTime _endDate;
-
         public Plan()
         {
         }
@@ -45,36 +41,8 @@ namespace Plans.Models.Plans
         public PlanType Type { get; set; }
         public User User { get; set; }
         public PlanStatus Status { get; set; }
-        public DateTime StartDate
-        {
-            get
-            {
-                return _startDate;
-            }
-            set
-            {
-                if(value.CompareTo(DateTime.Parse("3000-01-01 00:00:00")) == 0)
-                {
-                    return;
-                }
-                _startDate = value;
-            }
-        }
-        public DateTime EndDate
-        {
-            get
-            {
-                return _endDate;
-            }
-            set
-            {
-                if (value.CompareTo(DateTime.Parse("3000-01-01 00:00:00")) == 0)
-                {
-                    return;
-                }
-                _endDate = value;
-            }
-        }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public string Description { get; set; }
         public decimal Cost { get; set; }
         public List<User> InterestedUsers { get; set; }

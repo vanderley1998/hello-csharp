@@ -21,7 +21,7 @@ namespace Plans.Database
         {
             try
             {
-                var userFound = PlanModuleDB.OpenConnection()
+                var userFound = PlanModuleDB.ConnectionDB
                     .Query<PlanHistory>(@"
                         SELECT PH.ID, PH.DATE, P.ID, PS.ID, U.ID, U.NAME
                         FROM PLANS_HISTORY PH 
@@ -40,7 +40,7 @@ namespace Plans.Database
 
         public IEnumerable<PlanHistory> GetAll()
         {
-            IEnumerable<PlanHistory> list = PlanModuleDB.OpenConnection()
+            IEnumerable<PlanHistory> list = PlanModuleDB.ConnectionDB
                 .Query<PlanHistory, Plan, PlanStatus, User, PlanHistory>(@"
                     SELECT PH.ID, PH.DATE, P.ID, PS.ID, U.ID, U.NAME
                     FROM PLANS_HISTORY PH 
@@ -59,7 +59,7 @@ namespace Plans.Database
 
         public IEnumerable<PlanHistory> GetById(int id)
         {
-            IEnumerable<PlanHistory> list = PlanModuleDB.OpenConnection()
+            IEnumerable<PlanHistory> list = PlanModuleDB.ConnectionDB
                 .Query<PlanHistory, Plan, PlanStatus, User, PlanHistory>(@"
                     SELECT PH.ID, PH.DATE, P.ID, PS.ID, U.ID, U.NAME
                     FROM PLANS_HISTORY PH 

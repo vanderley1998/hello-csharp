@@ -23,7 +23,7 @@ namespace Plans.Database.View
 
         public IEnumerable<TotalPlansByUser> GetAll()
         {
-            IEnumerable<TotalPlansByUser> list = PlanModuleDB.OpenConnection()
+            IEnumerable<TotalPlansByUser> list = PlanModuleDB.ConnectionDB
                 .Query<TotalPlansByUser>("SELECT * FROM VIEW_TOTAL_PLANS_BY_USER");
             return list;
         }

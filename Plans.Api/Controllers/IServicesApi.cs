@@ -14,9 +14,6 @@ namespace Plans.Api.Controllers
         IActionResult List();
 
         [HttpGet("{id}")]
-        IActionResult ListById(int id);
-
-        [HttpGet("{id}")]
         IActionResult Get(int id);
 
         [HttpPost]

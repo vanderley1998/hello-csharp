@@ -4,20 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Plans.Api.Models;
 using Plans.Api.Models.Extensions;
 
-namespace Plans.Api.Controllers.Plan
+namespace Plans.Api.Controllers.User
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    public class PlanHistoryController : ControllerBase
+    public class UserHistoryController : ControllerBase
     {
         [HttpGet("{id}")]
         public IActionResult ListById(int id)
         {
-            var list = ConnectionDB.PlansModule.DataPlansHistory.GetById(id).Select(ph => ph.ToPlanHistoryApi()).ToList();
+            var list = ConnectionDB.PlansModule.DataUsersHistory.GetById(id).Select(ph => ph.ToUserHistoryApi()).ToList();
             return Ok(list);
         }
     }

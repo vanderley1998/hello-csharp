@@ -15,7 +15,6 @@ namespace Plans.Api.Models.Extensions
             {
                 Id = user.Id,
                 Name = user.Name,
-                RegisterDate = user.RegisterDate.ToString("yyyy-MM-dd"),
                 CanCreatePlan = user.CanCreatePlan
             };
         }
@@ -26,7 +25,6 @@ namespace Plans.Api.Models.Extensions
             {
                 Id = userApi.Id,
                 Name = userApi.Name,
-                RegisterDate = DateTime.Parse(userApi.RegisterDate),
                 CanCreatePlan = userApi.CanCreatePlan
             };
         }

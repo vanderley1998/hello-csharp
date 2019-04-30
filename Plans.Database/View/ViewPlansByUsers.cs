@@ -23,7 +23,7 @@ namespace Plans.Database.View
 
         public IEnumerable<PlanByUser> GetAll()
         {
-            IEnumerable<PlanByUser> list = PlanModuleDB.OpenConnection()
+            IEnumerable<PlanByUser> list = PlanModuleDB.ConnectionDB
                 .Query<PlanByUser>(@"
                     SELECT USER_ID, USER_NAME, PLAN_ID, PLAN_NAME, ID_TYPE, ID_STATUS, START_DATE, END_DATE, DATE_LATE_STATUS
                     FROM VIEW_PLANS_BY_USERS

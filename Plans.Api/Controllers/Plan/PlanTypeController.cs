@@ -32,8 +32,6 @@ namespace Plans.Api.Controllers.Plan
                     if (createdPlanType != null)
                     {
                         CacheIds.Add(createdPlanType.Id);
-                        //var uri = Url.Action("Plan", new { id = createdPlan.Id }); <--- TIRAR DÚVIDA PQ NÃO FUNCIONA. RETORNANDO VÁZIO!
-                        //return Created(uri, plan);
                         return Ok(new { createdPlanType.Id });
                     }
                 }
@@ -42,7 +40,7 @@ namespace Plans.Api.Controllers.Plan
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError); // <--- PERGUNTAR QUAL A MELHOR FORMA DE EXPOR SQL EXCEPTION
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -86,7 +84,7 @@ namespace Plans.Api.Controllers.Plan
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError); // <--- PERGUNTAR QUAL A MELHOR FORMA DE EXPOR SQL EXCEPTION
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -114,13 +112,8 @@ namespace Plans.Api.Controllers.Plan
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError); // <--- PERGUNTAR QUAL A MELHOR FORMA DE EXPOR SQL EXCEPTION
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
-        }
-
-        public IActionResult ListById(int id)
-        {
-            return NotFound();
         }
     }
 }

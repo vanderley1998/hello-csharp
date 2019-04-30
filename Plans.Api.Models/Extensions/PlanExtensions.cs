@@ -12,6 +12,15 @@ namespace Plans.Api.Models.Extensions
     {
         public static PlanApi ToPlanApi(this Plan plan)
         {
+            List<int> interestedUsers;
+            try
+            {
+                interestedUsers = plan.InterestedUsers.Select(u => u.Id).ToList();
+            }
+            catch (ArgumentNullException)
+            {
+                interestedUsers = new List<int>();
+            }
             return new PlanApi
             {
                 Id = plan.Id,
@@ -22,26 +31,24 @@ namespace Plans.Api.Models.Extensions
                 StartDate = plan.StartDate.ToString("yyyy-MM-dd"),
                 EndDate = plan.EndDate.ToString("yyyy-MM-dd"),
                 Description = plan.Description,
-                Cost = plan.Cost
+                Cost = plan.Cost,
+                InterestedUsers = interestedUsers
             };
         }
 
         public static Plan ToPlan(this PlanApi planApi)
         {
-            DateTime startDate;
-            DateTime endDate;
-
-            if (string.IsNullOrEmpty(planApi.StartDate))
+            List<User> interestedUsers;
+            try
             {
-                startDate = DateTime.Parse("3000-01-01 00:00:00");
-                Console.WriteLine(startDate);
+                interestedUsers = planApi.InterestedUsers.Select(u => new User(u)).ToList();
             }
-            if (string.IsNullOrEmpty(planApi.StartDate))
+            catch (ArgumentNullException)
             {
-                endDate = DateTime.Parse("3000-01-01 00:00:00");
-                Console.WriteLine(endDate);
+                interestedUsers = new List<User>();
             }
-
+            if (string.IsNullOrEmpty(planApi.StartDate)) { planApi.StartDate = "3000-01-01 00:00:00"; }
+            if (string.IsNullOrEmpty(planApi.EndDate)) { planApi.EndDate = "3000-01-01 00:00:00"; }
             return new Plan
             {
                 Id = planApi.Id,
@@ -49,10 +56,11 @@ namespace Plans.Api.Models.Extensions
                 Type = new PlanType(planApi.Type),
                 User = new User(planApi.User),
                 Status = new PlanStatus(planApi.Status),
-                StartDate = startDate,
-                EndDate = endDate,
+                StartDate = DateTime.Parse(planApi.StartDate),
+                EndDate = DateTime.Parse(planApi.EndDate),
                 Description = planApi.Description,
-                Cost = planApi.Cost
+                Cost = planApi.Cost,
+                InterestedUsers = interestedUsers
             };
         }
     }

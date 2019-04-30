@@ -22,8 +22,7 @@ namespace Plans.Database.View
 
         public IEnumerable<InterestedUsersByPlan> GetAll()
         {
-            IEnumerable<InterestedUsersByPlan> list = PlanModuleDB.OpenConnection()
-                .Query<InterestedUsersByPlan>("SELECT * FROM VIEW_INTERESTED_USERS_BY_PLAN");
+            IEnumerable<InterestedUsersByPlan> list = PlanModuleDB.ConnectionDB.Query<InterestedUsersByPlan>("SELECT * FROM VIEW_INTERESTED_USERS_BY_PLAN");
             return list;
         }
 

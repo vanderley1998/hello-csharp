@@ -28,6 +28,11 @@ namespace Plans.Api.Controllers
         public IActionResult List()
         {
             var list = ConnectionDB.PlansModule.DataPlan.GetAll().Select(p => p.ToPlanApi()).ToList();
+            foreach (var plan in list)
+            {
+                var interestedIdUsers = ConnectionDB.PlansModule.DataPlanInterestedUsers.GetById(plan.Id).Select(p => p.User.Id).ToList();
+                plan.InterestedUsers = interestedIdUsers;
+            }
             return Ok(list);
         }
 
@@ -38,6 +43,8 @@ namespace Plans.Api.Controllers
             {
                 var idPlan = CacheIds.First(p => p == id);
                 var plan = ConnectionDB.PlansModule.DataPlan.Get(idPlan).ToPlanApi();
+                var interestedIdUsers = ConnectionDB.PlansModule.DataPlanInterestedUsers.GetById(idPlan).Select(p => p.User.Id).ToList();
+                plan.InterestedUsers = interestedIdUsers;
                 return Ok(plan);
             }
             catch (InvalidOperationException)
@@ -55,16 +62,10 @@ namespace Plans.Api.Controllers
                 {
                     plan.Id = 0;
                     var convertedPlan = plan.ToPlan();
-                    Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-                    Console.WriteLine(convertedPlan);
                     var createdPlan = ConnectionDB.PlansModule.DataPlan.Save(convertedPlan);
                     if (createdPlan != null)
                     {
                         CacheIds.Add(createdPlan.Id);
-                        //var uri = Url.Action("api/v1.0/Plan", values: new { id = createdPlan.Id });
-                        //Console.WriteLine("teste <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-                        //Console.WriteLine(uri);
-                        //return Created(uri, plan);
                         return Ok(new { createdPlan.Id });
                     }
                 }
@@ -74,7 +75,7 @@ namespace Plans.Api.Controllers
             {
                 Console.WriteLine(e.Message);
                 Console.WriteLine(e.StackTrace);
-                return StatusCode(StatusCodes.Status500InternalServerError); // <--- PERGUNTAR QUAL A MELHOR FORMA DE EXPOR SQL EXCEPTION
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -103,7 +104,8 @@ namespace Plans.Api.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError); // <--- PERGUNTAR QUAL A MELHOR FORMA DE EXPOR SQL EXCEPTION
+                Console.WriteLine(e.StackTrace);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -117,21 +119,16 @@ namespace Plans.Api.Controllers
                 if (planFlag) { CacheIds.Remove(idPlan); }
                 return NoContent();
             }
-            catch (InvalidOperationException e)
+            catch (InvalidOperationException)
             {
-                Console.WriteLine(e.Message);
                 return NotFound($"There's no plan with id = {id}");
             }
             catch(Exception e)
             {
                 Console.WriteLine(e.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError); // <--- PERGUNTAR QUAL A MELHOR FORMA DE EXPOR SQL EXCEPTION
+                Console.WriteLine(e.StackTrace);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
-        }
-
-        public IActionResult ListById(int id)
-        {
-            return NotFound();
         }
     }
 }

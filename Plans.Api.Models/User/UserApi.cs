@@ -12,7 +12,6 @@ namespace Plans.Api.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string RegisterDate { get; set; }
         public bool CanCreatePlan { get; set; }
     }
 }

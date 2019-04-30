@@ -11,7 +11,7 @@ namespace Plans.Database
     {
         public bool Delete(int id)
         {
-            int affectedLines = PlanModuleDB.OpenConnection().Execute($"DELETE FROM PLAN_TYPES WHERE ID = @Id", new { Id = id });
+            int affectedLines = PlanModuleDB.ConnectionDB.Execute($"DELETE FROM PLAN_TYPES WHERE ID = @Id", new { Id = id });
             return affectedLines > 0;
         }
 
@@ -19,7 +19,7 @@ namespace Plans.Database
         {
             try
             {
-                var planTypeFound = PlanModuleDB.OpenConnection()
+                var planTypeFound = PlanModuleDB.ConnectionDB
                     .Query<PlanType>(@"
                         SELECT * FROM PLAN_TYPES
                         WHERE ID = @id
@@ -34,7 +34,7 @@ namespace Plans.Database
 
         public IEnumerable<PlanType> GetAll()
         {
-            IEnumerable<PlanType> list = PlanModuleDB.OpenConnection().Query<PlanType>("SELECT * FROM PLAN_TYPES");
+            IEnumerable<PlanType> list = PlanModuleDB.ConnectionDB.Query<PlanType>("SELECT * FROM PLAN_TYPES");
             return list;
         }
 
@@ -49,14 +49,14 @@ namespace Plans.Database
             if (obj.Id == 0)
             {
                 query = "INSERT INTO PLAN_TYPES (NAME) VALUES (@Name); SELECT CAST(SCOPE_IDENTITY() as int);";
-                var planTypeInserted = PlanModuleDB.OpenConnection().Query<int>(query, param: new { obj.Name });
+                var planTypeInserted = PlanModuleDB.ConnectionDB.Query<int>(query, param: new { obj.Name });
                 obj.Id = planTypeInserted.Single();
                 return obj;
             }
             else
             {
                 query = @"UPDATE PLAN_TYPES SET NAME = @Name WHERE ID = @Id";
-                int affectedLines = PlanModuleDB.OpenConnection().Execute(query, param: new { obj.Name, obj.Id });
+                int affectedLines = PlanModuleDB.ConnectionDB.Execute(query, param: new { obj.Name, obj.Id });
                 return affectedLines > 0 ? obj : throw new ArgumentException($"There's no PlanType with id = {obj.Id} in database.");
             }
         }

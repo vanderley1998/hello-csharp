@@ -8,6 +8,9 @@ using Dapper;
 using Plans.Models.Users;
 using System.Data.SqlClient;
 
+// Transação
+// https://docs.microsoft.com/pt-br/dotnet/api/system.data.sqlclient.sqlconnection.begintransaction?view=netframework-4.8
+
 namespace Plans.Database
 {
     public class DataPlan : ICrud<Plan>
@@ -16,7 +19,7 @@ namespace Plans.Database
         {
             try
             {
-                int affectedLines = PlanModuleDB.OpenConnection().Execute(
+                int affectedLines = PlanModuleDB.ConnectionDB.Execute(
                     $"EXEC DELETE_PLAN_REGISTERS_FROM_ALL_TABLES @ID = @Id", new { Id = id }
                 );
                 return affectedLines > 0;
@@ -31,7 +34,7 @@ namespace Plans.Database
         {
             try
             {
-                var planFound = PlanModuleDB.OpenConnection()
+                var planFound = PlanModuleDB.ConnectionDB
                     .Query<Plan, User, PlanStatus, PlanType, Plan>(@"
                         SELECT
                             P.ID, P.NAME,
@@ -62,7 +65,7 @@ namespace Plans.Database
 
         public IEnumerable<Plan> GetAll()
         {
-            IEnumerable<Plan> list = PlanModuleDB.OpenConnection()
+            IEnumerable<Plan> list = PlanModuleDB.ConnectionDB
                 .Query<Plan, User, PlanStatus, PlanType, Plan>(@"
                     SELECT
                         P.ID, P.NAME,
@@ -101,7 +104,7 @@ namespace Plans.Database
                     INSERT INTO PLANS (NAME, ID_TYPE, ID_USER, ID_STATUS, START_DATE, END_DATE, DESCRIPTION, COST)
                     VALUES (@Name, @IdType, @IdUser, 1, @StartDate, @EndDate, @Description, @Cost);
                     SELECT CAST(SCOPE_IDENTITY() as int);";
-                    var planTypeInserted = PlanModuleDB.OpenConnection()
+                    var planTypeInserted = PlanModuleDB.ConnectionDB
                         .Query<int>(query, param: new { obj.Name, IdType = obj.Type.Id, IdUser = obj.User.Id, obj.StartDate, obj.EndDate, obj.Description, obj.Cost });
                     obj.Id = planTypeInserted.Single();
                     return obj;
@@ -109,7 +112,7 @@ namespace Plans.Database
                 else
                 {
                     query = @"UPDATE PLANS SET NAME = @Name, ID_TYPE = @IdType, ID_STATUS = @IdStatus, ID_USER = @IdUser, START_DATE = @StartDate, END_DATE = @EndDate, DESCRIPTION = @Description, COST = @Cost WHERE ID = @Id";
-                    int affectedLines = PlanModuleDB.OpenConnection().Execute(query, param: new { obj.Id, obj.Name, IdType = obj.Type.Id, IdStatus = obj.Status.Id, IdUser = obj.User.Id, obj.StartDate, obj.EndDate, obj.Description, obj.Cost });
+                    int affectedLines = PlanModuleDB.ConnectionDB.Execute(query, param: new { obj.Id, obj.Name, IdType = obj.Type.Id, IdStatus = obj.Status.Id, IdUser = obj.User.Id, obj.StartDate, obj.EndDate, obj.Description, obj.Cost });
                     return affectedLines > 0 ? obj : throw new ArgumentException($"There's no Plan with id = {obj.Id} in database.");
                 }
             }

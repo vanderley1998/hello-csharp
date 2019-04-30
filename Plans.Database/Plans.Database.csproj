@@ -50,7 +50,7 @@
     <Compile Include="DataPlanStatus.cs" />
     <Compile Include="DataPlanType.cs" />
     <Compile Include="DataUser.cs" />
-    <Compile Include="DataUsersHistory.cs" />
+    <Compile Include="DataUserHistory.cs" />
     <Compile Include="ICrud.cs" />
     <Compile Include="PlanModuleDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

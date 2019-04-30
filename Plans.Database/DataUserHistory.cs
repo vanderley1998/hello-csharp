@@ -9,7 +9,7 @@ using Dapper;
 
 namespace Plans.Database
 {
-    public class DataUsersHistory : ICrud<UserHistory>
+    public class DataUserHistory : ICrud<UserHistory>
     {
         public bool Delete(int id)
         {
@@ -23,8 +23,11 @@ namespace Plans.Database
 
         public IEnumerable<UserHistory> GetAll()
         {
-            IEnumerable<UserHistory> list = PlanModuleDB.OpenConnection()
-                .Query<UserHistory, User, UserHistory>("SELECT * FROM USERS_HISTORY UH INNER JOIN USERS U ON U.ID = UH.ID",
+            IEnumerable<UserHistory> list = PlanModuleDB.ConnectionDB
+                .Query<UserHistory, User, UserHistory>(@"
+                    SELECT *
+                    FROM USERS_HISTORY UH
+                    INNER JOIN USERS U ON U.ID = UH.ID_USER",
                 map: (userHistory, user) =>
                 {
                     userHistory.User = user;
@@ -35,7 +38,18 @@ namespace Plans.Database
 
         public IEnumerable<UserHistory> GetById(int id)
         {
-            throw new NotImplementedException();
+            IEnumerable<UserHistory> list = PlanModuleDB.ConnectionDB
+                .Query<UserHistory, User, UserHistory>(@"
+                    SELECT *
+                    FROM USERS_HISTORY UH
+                    INNER JOIN USERS U ON U.ID = UH.ID_USER
+                    WHERE U.ID = @id", param: new { id },
+                map: (userHistory, user) =>
+                {
+                    userHistory.User = user;
+                    return userHistory;
+                });
+            return list;
         }
 
         public UserHistory Save(UserHistory obj)

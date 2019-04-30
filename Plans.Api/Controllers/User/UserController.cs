@@ -30,13 +30,12 @@ namespace Plans.Api.Controllers
                 {
                     user.Id = 0;
                     var convertedUser = user.ToUser();
+                    convertedUser.RegisterDate = DateTime.Now;
                     convertedUser.LastchangedDate = convertedUser.RegisterDate;
                     var createdUser = ConnectionDB.PlansModule.DataUser.Save(convertedUser);
                     if (createdUser != null)
                     {
                         CacheIds.Add(createdUser.Id);
-                        //var uri = Url.Action("Plan", new { id = createdPlan.Id }); <--- TIRAR DÚVIDA PQ NÃO FUNCIONA. RETORNANDO VÁZIO!
-                        //return Created(uri, plan);
                         return Ok(new { createdUser.Id });
                     }
                 }
@@ -45,7 +44,7 @@ namespace Plans.Api.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError); // <--- PERGUNTAR QUAL A MELHOR FORMA DE EXPOR SQL EXCEPTION
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -89,7 +88,7 @@ namespace Plans.Api.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError); // <--- PERGUNTAR QUAL A MELHOR FORMA DE EXPOR SQL EXCEPTION
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -118,13 +117,8 @@ namespace Plans.Api.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError); // <--- PERGUNTAR QUAL A MELHOR FORMA DE EXPOR SQL EXCEPTION
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
-        }
-
-        public IActionResult ListById(int id)
-        {
-            return NotFound();
         }
     }
 }
