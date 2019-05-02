@@ -16,8 +16,16 @@ namespace Plans.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult ListById(int id)
         {
-            var list = ConnectionDB.PlansModule.DataUsersHistory.GetById(id).Select(ph => ph.ToUserHistoryApi()).ToList();
-            return Ok(list);
+            try
+            {
+                var list = ConnectionDB.PlansModule.DataUsersHistory.GetById(id).Select(ph => ph.ToUserHistoryApi()).ToList();
+                return Ok(list);
+            }
+            catch (Exception e)
+            {
+                ErrorResponse errorResponse = ErrorResponse.From(e);
+                return StatusCode(500, errorResponse);
+            }
         }
     }
 }

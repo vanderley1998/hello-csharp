@@ -88,9 +88,8 @@ namespace Plans.Api.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                ErrorResponse errorResponse = ErrorResponse.From(e);
+                return StatusCode(500, errorResponse);
             }
         }
 
@@ -104,9 +103,8 @@ namespace Plans.Api.Controllers
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                ErrorResponse errorResponse = ErrorResponse.From(e);
+                return StatusCode(500, errorResponse);
             }
         }
     }

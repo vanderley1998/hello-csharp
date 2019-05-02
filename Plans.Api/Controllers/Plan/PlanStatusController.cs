@@ -28,17 +28,24 @@ namespace Plans.Api.Controllers.Plan
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                ErrorResponse errorResponse = ErrorResponse.From(e);
+                return StatusCode(500, errorResponse);
             }
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var planStatus = ConnectionDB.PlansModule.DataPlanStatus.Get(id);
-            return Ok(planStatus);
+            try
+            {
+                var planStatus = ConnectionDB.PlansModule.DataPlanStatus.Get(id);
+                return Ok(planStatus);
+            }
+            catch (Exception e)
+            {
+                ErrorResponse errorResponse = ErrorResponse.From(e);
+                return StatusCode(500, errorResponse);
+            }
         }
 
         [HttpGet]
@@ -58,9 +65,8 @@ namespace Plans.Api.Controllers.Plan
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                ErrorResponse errorResponse = ErrorResponse.From(e);
+                return StatusCode(500, errorResponse);
             }
         }
 
@@ -79,9 +85,8 @@ namespace Plans.Api.Controllers.Plan
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                ErrorResponse errorResponse = ErrorResponse.From(e);
+                return StatusCode(500, errorResponse);
             }
         }
     }

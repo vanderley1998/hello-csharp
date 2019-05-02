@@ -15,15 +15,31 @@ namespace Plans.Api.Controllers.View
         [HttpGet]
         public IActionResult Get()
         {
-            var list = ConnectionDB.PlansModule.ViewTotalPlansByUser.GetAll().ToList();
-            return Ok(list);
+            try
+            {
+                var list = ConnectionDB.PlansModule.ViewTotalPlansByUser.GetAll().ToList();
+                return Ok(list);
+            }
+            catch (Exception e)
+            {
+                ErrorResponse errorResponse = ErrorResponse.From(e);
+                return StatusCode(500, errorResponse);
+            }
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var list = ConnectionDB.PlansModule.ViewTotalPlansByUser.Get(id);
-            return Ok(list);
+            try
+            {
+                var list = ConnectionDB.PlansModule.ViewTotalPlansByUser.Get(id);
+                return Ok(list);
+            }
+            catch (Exception e)
+            {
+                ErrorResponse errorResponse = ErrorResponse.From(e);
+                return StatusCode(500, errorResponse);
+            }
         }
     }
 }

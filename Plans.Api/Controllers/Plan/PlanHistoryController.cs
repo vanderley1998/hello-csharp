@@ -17,8 +17,17 @@ namespace Plans.Api.Controllers.Plan
         [HttpGet("{id}")]
         public IActionResult ListById(int id)
         {
-            var list = ConnectionDB.PlansModule.DataPlansHistory.GetById(id).Select(ph => ph.ToPlanHistoryApi()).ToList();
-            return Ok(list);
+            try
+            {
+                var list = ConnectionDB.PlansModule.DataPlansHistory.GetById(id).Select(ph => ph.ToPlanHistoryApi()).ToList();
+                return Ok(list);
+            }
+            catch (Exception e)
+            {
+                ErrorResponse errorResponse = ErrorResponse.From(e);
+                return StatusCode(500, errorResponse);
+            }
+            
         }
     }
 }
