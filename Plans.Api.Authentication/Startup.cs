@@ -27,7 +27,6 @@ namespace Plans.Api.Authentication
             }
 
             app.UseMvc();
-            app.UseAuthentication();
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Plans Module API Authentication");

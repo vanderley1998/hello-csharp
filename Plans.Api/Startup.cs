@@ -37,7 +37,7 @@ namespace Plans.Api
                     new Info
                     {
                         Title = "PlanModule",
-                        Version = "v1",
+                        Version = "1.0",
                         Description = "Projeto de demonstração",
                         Contact = new Contact
                         {
@@ -45,6 +45,19 @@ namespace Plans.Api
                             Url = "https://github.com/vanderley1998"
                         }
                     });
+                options.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey",
+                    Description = "Bearer authentication by JWT"
+                });
+                options.AddSecurityRequirement(
+                    new Dictionary<string, IEnumerable<string>>
+                    {
+                        {"Bearer", new string[] { } }
+                    }
+                );
             });
 
             services.AddAuthentication(options => {
@@ -65,6 +78,7 @@ namespace Plans.Api
                 };
             });
 
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +88,7 @@ namespace Plans.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
