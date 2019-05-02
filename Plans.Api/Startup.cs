@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Plans.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Plans.Api
 {
@@ -36,7 +37,7 @@ namespace Plans.Api
                     new Info
                     {
                         Title = "PlanModule",
-                        Version = "v1",
+                        Version = "1.0",
                         Description = "Projeto de demonstração",
                         Contact = new Contact
                         {
@@ -44,7 +45,40 @@ namespace Plans.Api
                             Url = "https://github.com/vanderley1998"
                         }
                     });
+                options.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey",
+                    Description = "Bearer authentication by JWT"
+                });
+                options.AddSecurityRequirement(
+                    new Dictionary<string, IEnumerable<string>>
+                    {
+                        {"Bearer", new string[] { } }
+                    }
+                );
             });
+
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = "JwtBearer";
+                options.DefaultChallengeScheme = "JwtBearer";
+
+            }).AddJwtBearer("JwtBearer", options => {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("4logic-plansmodule")),
+                    ClockSkew = TimeSpan.FromMinutes(5),
+                    ValidIssuer = "Plans.Api",
+                    ValidAudience = "AngularAppClient"
+                };
+            });
+
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +88,7 @@ namespace Plans.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

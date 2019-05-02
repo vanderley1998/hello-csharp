@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plans.ConsoleApplication", "PlansModule\Plans.ConsoleApplication.csproj", "{A075A150-F2D9-4EE4-9D48-D16999C6839D}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{9297B36B-03F2-4FC5-9C5D-CE2295071B39}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plans.Api.Models", "Plans.Api.Models\Plans.Api.Models.csproj", "{BDD921CC-2736-44D2-A4C6-37C67B9BD161}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plans.Api.Authentication", "Plans.Api.Authentication\Plans.Api.Authentication.csproj", "{1995B16F-7E42-4118-9186-620E9FB956AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{BDD921CC-2736-44D2-A4C6-37C67B9BD161}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDD921CC-2736-44D2-A4C6-37C67B9BD161}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDD921CC-2736-44D2-A4C6-37C67B9BD161}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1995B16F-7E42-4118-9186-620E9FB956AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1995B16F-7E42-4118-9186-620E9FB956AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1995B16F-7E42-4118-9186-620E9FB956AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1995B16F-7E42-4118-9186-620E9FB956AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

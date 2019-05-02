@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Plans.Models.Plans;
 
 namespace Plans.Api.Controllers.Plan
 {
+    [Authorize]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
@@ -51,8 +53,17 @@ namespace Plans.Api.Controllers.Plan
         [HttpGet]
         public IActionResult List()
         {
-            var list = ConnectionDB.PlansModule.DataPlanStatus.GetAll().ToList();
-            return Ok(list);
+            try
+            {
+                var list = ConnectionDB.PlansModule.DataPlanStatus.GetAll().ToList();
+                return Ok(list);
+            }
+            catch (Exception e)
+            {
+                ErrorResponse errorResponse = ErrorResponse.From(e);
+                return StatusCode(500, errorResponse);
+                throw;
+            }
         }
 
         [HttpDelete("{id}")]

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +14,7 @@ using Plans.Models.Users;
 
 namespace Plans.Api.Controllers
 {
+    [Authorize]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
@@ -21,13 +23,21 @@ namespace Plans.Api.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            var list = ConnectionDB.PlansModule.DataPlan.GetAll().Select(p => p.ToPlanApi()).ToList();
-            foreach (var plan in list)
+            try
             {
-                var interestedIdUsers = ConnectionDB.PlansModule.DataPlanInterestedUsers.GetById(plan.Id).Select(p => p.User.Id).ToList();
-                plan.InterestedUsers = interestedIdUsers;
+                var list = ConnectionDB.PlansModule.DataPlan.GetAll().Select(p => p.ToPlanApi()).ToList();
+                foreach (var plan in list)
+                {
+                    var interestedIdUsers = ConnectionDB.PlansModule.DataPlanInterestedUsers.GetById(plan.Id).Select(p => p.User.Id).ToList();
+                    plan.InterestedUsers = interestedIdUsers;
+                }
+                return Ok(list);
             }
-            return Ok(list);
+            catch (Exception e)
+            {
+                ErrorResponse errorResponse = ErrorResponse.From(e);
+                return StatusCode(500, errorResponse);
+            }
         }
 
         [HttpGet("{id}")]
