@@ -15,11 +15,20 @@ namespace Plans.Database.View
             throw new NotImplementedException();
         }
 
+        public InterestedUsersByPlan Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<InterestedUsersByPlan> GetAll()
         {
-            IEnumerable<InterestedUsersByPlan> list = PlanModuleDB.OpenConnection()
-                .Query<InterestedUsersByPlan>("SELECT * FROM VIEW_INTERESTED_USERS_BY_PLAN");
+            IEnumerable<InterestedUsersByPlan> list = PlanModuleDB.ConnectionDB.Query<InterestedUsersByPlan>("SELECT * FROM VIEW_INTERESTED_USERS_BY_PLAN");
             return list;
+        }
+
+        public IEnumerable<InterestedUsersByPlan> GetById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public InterestedUsersByPlan Save(InterestedUsersByPlan obj)

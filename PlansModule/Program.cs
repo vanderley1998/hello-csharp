@@ -30,7 +30,7 @@ namespace PlansModule
 
         static void GetPlansByUser(int idUser)
         {
-            Console.WriteLine($"=> Planos por responsável (ID: {14})");
+            Console.WriteLine($"=> Planos por responsável (ID: {idUser})");
             foreach (var plan in _listPlans.ToList().Where(plan => plan.User.Id == idUser).OrderBy(plan => plan.Id))
             {
                 Console.WriteLine(plan);

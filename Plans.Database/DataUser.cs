@@ -13,13 +13,21 @@ namespace Plans.Database
     {
         public IEnumerable<User> GetAll()
         {
-            IEnumerable<User> list = PlanModuleDB.OpenConnection().Query<User>("SELECT * FROM USERS");
+            IEnumerable<User> list = PlanModuleDB.ConnectionDB.Query<User>(@"
+                SELECT
+                    ID, NAME,
+                    REGISTER_DATE AS RegisterDate,
+                    LAST_CHANGED_DATE AS LastchangedDate,
+                    CAN_CREATE_PLAN AS CanCreatePlan,
+                    REMOVED
+                FROM USERS
+            ");
             return list;
         }
 
         public bool Delete(int id)
         {
-            int affectedLines = PlanModuleDB.OpenConnection().Execute($"UPDATE USERS SET REMOVED = 1 WHERE ID = @Id", new { Id = id });
+            int affectedLines = PlanModuleDB.ConnectionDB.Execute($"UPDATE USERS SET REMOVED = 1 WHERE ID = @Id", new { Id = id });
             return affectedLines > 0;
         }
 
@@ -33,7 +41,7 @@ namespace Plans.Database
                     VALUES (@Name, @RegisterDate, @LastchangedDate, @CanCreatePlan, @Removed);
                     SELECT CAST(SCOPE_IDENTITY() as int);
                 ";
-                var planStatusInserted = PlanModuleDB.OpenConnection()
+                var planStatusInserted = PlanModuleDB.ConnectionDB
                     .Query<int>(query, param: new { obj.Name, obj.RegisterDate, obj.LastchangedDate, obj.CanCreatePlan, obj.Removed });
                 obj.Id = planStatusInserted.Single();
                 return obj;
@@ -41,10 +49,38 @@ namespace Plans.Database
             else
             {
                 query = @"UPDATE USERS SET NAME = @Name, CAN_CREATE_PLAN = @CanCreatePlan, REMOVED = @Removed WHERE ID = @Id";
-                int affectedLines = PlanModuleDB.OpenConnection()
+                int affectedLines = PlanModuleDB.ConnectionDB
                     .Execute(query, param: new { obj.Id, obj.Name, obj.CanCreatePlan, obj.Removed });
                 return affectedLines > 0 ? obj : throw new ArgumentException($"There's no User with id = {obj.Id} in database.");
             }
+        }
+
+        public User Get(int id)
+        {
+            try
+            {
+                var userFound = PlanModuleDB.ConnectionDB
+                    .Query<User>(@"
+                        SELECT
+                            ID, NAME,
+                            REGISTER_DATE AS RegisterDate,
+                            LAST_CHANGED_DATE AS LastchangedDate,
+                            CAN_CREATE_PLAN AS CanCreatePlan,
+                            REMOVED
+                        FROM USERS
+                        WHERE ID = @id
+                    ", param: new { id });
+                return userFound.First();
+            }
+            catch (InvalidOperationException e)
+            {
+                throw e;
+            }
+        }
+
+        public IEnumerable<User> GetById(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

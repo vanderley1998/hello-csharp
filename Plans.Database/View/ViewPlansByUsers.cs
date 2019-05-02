@@ -16,14 +16,24 @@ namespace Plans.Database.View
             throw new NotImplementedException();
         }
 
+        public PlanByUser Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<PlanByUser> GetAll()
         {
-            IEnumerable<PlanByUser> list = PlanModuleDB.OpenConnection()
+            IEnumerable<PlanByUser> list = PlanModuleDB.ConnectionDB
                 .Query<PlanByUser>(@"
                     SELECT USER_ID, USER_NAME, PLAN_ID, PLAN_NAME, ID_TYPE, ID_STATUS, START_DATE, END_DATE, DATE_LATE_STATUS
                     FROM VIEW_PLANS_BY_USERS
                 ");
             return list;
+        }
+
+        public IEnumerable<PlanByUser> GetById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public PlanByUser Save(PlanByUser obj)

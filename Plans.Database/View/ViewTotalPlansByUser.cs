@@ -16,11 +16,33 @@ namespace Plans.Database.View
             throw new NotImplementedException();
         }
 
+        public TotalPlansByUser Get(int id)
+        {
+            try
+            {
+                IEnumerable<TotalPlansByUser> list = PlanModuleDB.ConnectionDB
+                .Query<TotalPlansByUser>(@"
+                    SELECT * FROM VIEW_TOTAL_PLANS_BY_USER
+                    WHERE USER_ID = @id
+                ", param: new { id });
+                return list.First();
+            }
+            catch (InvalidOperationException e)
+            {
+                throw e;
+            }
+        }
+
         public IEnumerable<TotalPlansByUser> GetAll()
         {
-            IEnumerable<TotalPlansByUser> list = PlanModuleDB.OpenConnection()
+            IEnumerable<TotalPlansByUser> list = PlanModuleDB.ConnectionDB
                 .Query<TotalPlansByUser>("SELECT * FROM VIEW_TOTAL_PLANS_BY_USER");
             return list;
+        }
+
+        public IEnumerable<TotalPlansByUser> GetById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public TotalPlansByUser Save(TotalPlansByUser obj)

@@ -11,5 +11,7 @@ namespace Plans.Database
         IEnumerable<T> GetAll();
         bool Delete(int id);
         T Save(T obj);
+        T Get(int id);
+        IEnumerable<T> GetById(int id);
     }
 }
