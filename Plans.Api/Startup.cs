@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Plans.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Plans.Api
 {
@@ -45,6 +46,25 @@ namespace Plans.Api
                         }
                     });
             });
+
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = "JwtBearer";
+                options.DefaultChallengeScheme = "JwtBearer";
+
+            }).AddJwtBearer("JwtBearer", options => {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("4logic-plansmodule")),
+                    ClockSkew = TimeSpan.FromMinutes(5),
+                    ValidIssuer = "Plans.Api",
+                    ValidAudience = "AngularAppClient"
+                };
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
