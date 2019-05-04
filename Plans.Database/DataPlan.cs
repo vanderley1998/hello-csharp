@@ -9,9 +9,6 @@ using Plans.Models.Users;
 using System.Data.SqlClient;
 using Plans.Models;
 
-// Transação
-// https://docs.microsoft.com/pt-br/dotnet/api/system.data.sqlclient.sqlconnection.begintransaction?view=netframework-4.8
-
 namespace Plans.Database
 {
     public class DataPlan : ICrud<Plan>

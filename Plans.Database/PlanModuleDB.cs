@@ -19,6 +19,7 @@ namespace Plans.Database
         public DataPlansHistory DataPlansHistory { get; private set; }
         public DataUserHistory DataUsersHistory { get; private set; }
         public DataPlanInterestedUsers DataPlanInterestedUsers { get; private set; }
+        public DataInnerPlan DataInnerPlan { get; private set; }
         public ViewInterestedUsersByPlan ViewInterestedUsersByPlan { get; private set; }
         public ViewTotalPlansByUser ViewTotalPlansByUser { get; set; }
         public ViewPlansByUsers ViewPlansByUsers { get; set; }
@@ -36,6 +37,7 @@ namespace Plans.Database
             DataPlansHistory = new DataPlansHistory();
             DataUsersHistory = new DataUserHistory();
             DataPlanInterestedUsers = new DataPlanInterestedUsers();
+            DataInnerPlan = new DataInnerPlan();
             ViewInterestedUsersByPlan = new ViewInterestedUsersByPlan();
             ViewTotalPlansByUser = new ViewTotalPlansByUser();
             ViewPlansByUsers = new ViewPlansByUsers();

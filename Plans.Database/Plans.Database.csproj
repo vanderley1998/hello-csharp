@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataInnerPlan.cs" />
     <Compile Include="DataPlan.cs" />
     <Compile Include="DataPlanInterestedUsers.cs" />
     <Compile Include="DataPlansHistory.cs" />
