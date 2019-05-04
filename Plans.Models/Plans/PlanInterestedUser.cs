@@ -10,18 +10,6 @@ namespace Plans.Models
 {
     public class PlanInterestedUser
     {
-
-        public PlanInterestedUser()
-        {
-        }
-
-        public PlanInterestedUser(int id, Plan plan, User user)
-        {
-            Id = id;
-            Plan = plan;
-            User = user;
-        }
-
         public int Id { get; set; }
         public Plan Plan { get; set; }
         public User User { get; set; }

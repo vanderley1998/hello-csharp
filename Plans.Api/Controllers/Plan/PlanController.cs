@@ -65,7 +65,7 @@ namespace Plans.Api.Controllers
                 {
                     planApi.Id = 0;
                     var convertedPlan = planApi.ToPlan();
-                    convertedPlan.InterestedUsers = planApi.InterestedUsers.Select(i => new User(i)).ToList();
+                    convertedPlan.InterestedUsers = planApi.InterestedUsers.Select(i => new User { Id = i}).ToList();
                     var createdPlan = ConnectionDB.PlansModule.DataPlan.Save(convertedPlan);
                     if (createdPlan != null)
                     {

@@ -8,16 +8,6 @@ namespace Plans.Models.View
 {
     public class InterestedUsersByPlan
     {
-        public InterestedUsersByPlan(int ID, string PLAN_NAME, string USER_NAME, DateTime START_DATE, DateTime END_DATE, string INTERESTED_USERS)
-        {
-            Id = ID;
-            PlanName = PLAN_NAME;
-            Username = USER_NAME;
-            StartDate = START_DATE;
-            EndDate = END_DATE;
-            InterestedUsers = INTERESTED_USERS;
-        }
-
         public int Id { get; set; }
         public string PlanName { get; set; }
         public string Username { get; set; }

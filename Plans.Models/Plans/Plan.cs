@@ -10,32 +10,6 @@ namespace Plans.Models.Plans
 {
     public class Plan
     {
-        public Plan()
-        {
-        }
-
-        public Plan(int id, string name, PlanType planType, User user, PlanStatus planStatus, DateTime START_DATE, DateTime END_DATE)
-        {
-            Type = planType;
-            User = user;
-            Status = planStatus;
-            StartDate = START_DATE;
-            EndDate = END_DATE;
-        }
-
-        public Plan(int id, string name, PlanType type, User user, PlanStatus status, DateTime START_DATE, DateTime END_DATE, string description, decimal cost)
-        {
-            Id = id;
-            Name = name;
-            Type = type;
-            User = user;
-            Status = status;
-            StartDate = START_DATE;
-            EndDate = END_DATE;
-            Description = description;
-            Cost = cost;
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
         public PlanType Type { get; set; }

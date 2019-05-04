@@ -8,32 +8,6 @@ namespace Plans.Models.Users
 {
     public class User
     {
-
-        public User()
-        {
-        }
-
-        public User(int id)
-        {
-            Id = id;
-        }
-
-        public User(int id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
-
-        public User(int id, string name, DateTime registerDate, DateTime lastchangedDate, bool canCreatePlan, bool removed)
-        {
-            Id = id;
-            Name = name;
-            RegisterDate = registerDate;
-            LastchangedDate = lastchangedDate;
-            CanCreatePlan = canCreatePlan;
-            Removed = removed;
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime RegisterDate { get; set; }
@@ -58,6 +32,5 @@ namespace Plans.Models.Users
         {
             return $"\t[Id: {Id}, Name: {Name}, Removed: {Removed}], RegisterDate: {RegisterDate}";
         }
-
     }
 }

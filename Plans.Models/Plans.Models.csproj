@@ -47,7 +47,7 @@
     <Compile Include="Dictionary\DictionaryUsers.cs" />
     <Compile Include="Dictionary\IDictionaryList.cs" />
     <Compile Include="Exception\UserNotFoundException.cs" />
-    <Compile Include="PlanInterestedUser.cs" />
+    <Compile Include="Plans\PlanInterestedUser.cs" />
     <Compile Include="Plans\Plan.cs" />
     <Compile Include="Plans\PlanHistory.cs" />
     <Compile Include="Plans\PlanStatus.cs" />

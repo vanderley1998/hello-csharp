@@ -8,19 +8,6 @@ namespace Plans.Models.Plans
 {
     public class PlanHistory
     {
-
-        public PlanHistory()
-        {
-        }
-
-        public PlanHistory(int id, Plan plan, PlanStatus planStatus, DateTime date)
-        {
-            Id = id;
-            Plan = plan;
-            PlanStatus = planStatus;
-            Date = date;
-        }
-
         public int Id { get; set; }
         public Plan Plan { get; set; }
         public PlanStatus PlanStatus { get; set; }

@@ -160,9 +160,9 @@ namespace PlansModule
             Console.Write("Nome do novo plano.......: ");
             plan.Name = Console.ReadLine();
             Console.Write("ID do tipo do novo plano.: ");
-            plan.Type = new PlanType(int.Parse(Console.ReadLine()));
+            plan.Type = new PlanType { Id = int.Parse(Console.ReadLine()) };
             Console.Write("ID do usuário responsável: ");
-            plan.User = new User(int.Parse(Console.ReadLine()));
+            plan.User = new User { Id = int.Parse(Console.ReadLine()) };
             Console.Write("Data de início...........: ");
             plan.StartDate = DateTime.Parse(Console.ReadLine());
             Console.Write("Data de término..........: ");
@@ -172,7 +172,7 @@ namespace PlansModule
             Console.Write("Custo....................: R$");
             plan.Cost = decimal.Parse(Console.ReadLine());
 
-            plan.Status = new PlanStatus(1);
+            plan.Status = new PlanStatus { Id = 1 };
 
             Plan insertedUser = _planModuleDB.DataPlan.Save(plan);
             if (insertedUser != null)
@@ -248,9 +248,9 @@ namespace PlansModule
             Console.Write("Nome do plano.......: ");
             plan.Name = Console.ReadLine();
             Console.Write("ID do tipo do plano.: ");
-            plan.Type = new PlanType(int.Parse(Console.ReadLine()));
+            plan.Type = new PlanType { Id = int.Parse(Console.ReadLine()) };
             Console.Write("ID do usuário responsável: ");
-            plan.User = new User(int.Parse(Console.ReadLine()));
+            plan.User = new User { Id = int.Parse(Console.ReadLine()) };
             Console.Write("Data de início...........: ");
             plan.StartDate = DateTime.Parse(Console.ReadLine());
             Console.Write("Data de término..........: ");
@@ -260,7 +260,7 @@ namespace PlansModule
             Console.Write("Custo....................: R$");
             plan.Cost = decimal.Parse(Console.ReadLine());
             Console.Write("ID do status.............: ");
-            plan.Status = new PlanStatus(int.Parse(Console.ReadLine()));
+            plan.Status = new PlanStatus { Id = int.Parse(Console.ReadLine()) };
 
             Plan updatedPlan = _planModuleDB.DataPlan.Save(plan);
             if (updatedPlan != null)

@@ -39,7 +39,7 @@ namespace Plans.Api.Models.Extensions
             List<User> interestedUsers;
             try
             {
-                interestedUsers = planApi.InterestedUsers.Select(u => new User(u)).ToList();
+                interestedUsers = planApi.InterestedUsers.Select(u => new User { Id = u}).ToList();
             }
             catch (ArgumentNullException)
             {
@@ -51,9 +51,9 @@ namespace Plans.Api.Models.Extensions
             {
                 Id = planApi.Id,
                 Name = planApi.Name,
-                Type = new PlanType(planApi.Type),
-                User = new User(planApi.User),
-                Status = new PlanStatus(planApi.Status),
+                Type = new PlanType { Id = planApi.Type },
+                User = new User { Id = planApi.User },
+                Status = new PlanStatus { Id = planApi.Status},
                 StartDate = DateTime.Parse(planApi.StartDate),
                 EndDate = DateTime.Parse(planApi.EndDate),
                 Description = planApi.Description,

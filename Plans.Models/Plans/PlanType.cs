@@ -8,21 +8,6 @@ namespace Plans.Models.Plans
 {
     public class PlanType
     {
-        public PlanType()
-        {
-        }
-
-        public PlanType(int id)
-        {
-            Id = id;
-        }
-
-        public PlanType(int id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
 

@@ -8,27 +8,6 @@ namespace Plans.Models.Plans
 {
     public class PlanStatus
     {
-
-        public PlanStatus()
-        {
-        }
-
-        public PlanStatus(string name)
-        {
-            Name = name;
-        }
-
-        public PlanStatus(int id)
-        {
-            Id = id;
-        }
-
-        public PlanStatus(int id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
 
@@ -36,6 +15,5 @@ namespace Plans.Models.Plans
         {
             return $"[Id: {Id}, Name: {Name}]";
         }
-
     }
 }
