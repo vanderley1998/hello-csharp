@@ -30,6 +30,8 @@ namespace Plans.Api.Controllers
                 {
                     var interestedIdUsers = ConnectionDB.PlansModule.DataPlanInterestedUsers.GetById(plan.Id).Select(p => p.User.Id).ToList();
                     plan.InterestedUsers = interestedIdUsers;
+                    var innerPlans = ConnectionDB.PlansModule.DataInnerPlan.GetById(plan.Id).Select(ip => ip.ChildPlan).ToList();
+                    plan.InnerPlans = innerPlans;
                 }
                 return Ok(list);
             }

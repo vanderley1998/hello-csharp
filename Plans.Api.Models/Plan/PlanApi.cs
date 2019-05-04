@@ -29,5 +29,6 @@ namespace Plans.Api.Models
         public string Description { get; set; }
         public decimal Cost { get; set; }
         public List<int> InterestedUsers { get; set; }
+        public List<int> InnerPlans { get; set; }
     }
 }

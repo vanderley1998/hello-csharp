@@ -19,7 +19,9 @@ namespace Plans.Models.Plans
         public DateTime EndDate { get; set; }
         public string Description { get; set; }
         public decimal Cost { get; set; }
+        public bool Removed { get; set; }
         public List<User> InterestedUsers { get; set; }
+        public List<Plan> InnerPlans { get; set; }
 
         public override bool Equals(object obj)
         {
