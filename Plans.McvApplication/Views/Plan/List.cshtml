@@ -1,0 +1,49 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>List</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Status</th>
+                <th>Responsável</th>
+                <th>Data de início</th>
+                <th>Data de término</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Plans)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td><a href="./Details?id=@item.Id">@item.Name</a></td>
+                    <td>@item.Type</td>
+                    <td>@item.Status</td>
+                    <td>@item.User</td>
+                    <td>@item.StartDate</td>
+                    <td>@item.EndDate</td>
+                    <td>
+                        <a href="./Delete?id=@item.Id">Apagar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <a href="./Details?id=-1">Novo plano</a>
+</body>
+</html>

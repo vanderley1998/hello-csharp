@@ -1,0 +1,73 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Get</title>
+</head>
+<body>
+    <form action="./Save" method="post">
+        <table class="tg">
+            <tr>
+                <td>ID: </td>
+                <td><input type="text" readonly="readonly" name="planApi.Id" value="@ViewBag.Plan.Id" /></td>
+            </tr>
+            <tr>
+                <td>Nome:</td>
+                <td><input type="text" name="planApi.Name" value="@ViewBag.Plan.Name" /></td>
+            </tr>
+            <tr>
+                <td>Tipo:</td>
+                <td>
+                    <select name="planApi.Type">
+                        <option value="1">Padrão</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Status:</td>
+                <td>
+                    <select name="planApi.Status">
+                        <option value="1">Padrão</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Responsável:</td>
+                <td>
+                    <select name="planApi.User">
+                        <option value="1">Padrão</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Data de início:</td>
+                <td><input type="text" name="planApi.StartDate" value="@ViewBag.Plan.StartDate" /></td>
+            </tr>
+            <tr>
+                <td>Data de término:</td>
+                <td><input type="text" name="planApi.EndDate" value="@ViewBag.Plan.EndDate" /></td>
+            </tr>
+            <tr>
+                <td>Descrição :</td>
+                <td><input type="text" name="planApi.Description" value="@ViewBag.Plan.Description" /></td>
+            </tr>
+            <tr>
+                <td>Custo:</td>
+                <td><input type="text" name="planApi.Cost" value="@ViewBag.Plan.Cost" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Salvar" /></td>
+            </tr>
+        </table>
+    </form>
+    <a href="/Plan/List"> < Voltar</a>
+    <p>2019-01-04</p>
+</body>
+</html>
